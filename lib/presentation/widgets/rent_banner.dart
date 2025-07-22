@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:rent_app/presentation/style/colors/app_colors.dart';
+
+class RentBanner extends StatelessWidget {
+  final List<RentItem> items = [
+    RentItem(icon: Icons.directions_car, label: 'Car'),
+    RentItem(icon: Icons.motorcycle, label: 'Motorcycle'),
+    RentItem(icon: Icons.house, label: 'House'),
+    RentItem(icon: Icons.more_horiz, label: 'Others'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Image.asset("assets/banner/banner.png", width: double.infinity, fit: BoxFit.fitWidth,),
+        Padding(
+          padding: const EdgeInsets.only( top: 12, left: 12, right: 12, bottom: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 85,
+                child:  GridView.count(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: items.map((item) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColors.lightTeal.color,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(item.icon, size: 28, color: AppColors.darkTeal.color),
+                        ),
+                        SizedBox(height: 6),
+                        Text(item.label, style: TextStyle(fontSize: 14)),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RentItem {
+  final IconData icon;
+  final String label;
+
+  RentItem({required this.icon, required this.label});
+}
