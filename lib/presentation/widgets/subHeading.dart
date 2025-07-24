@@ -13,12 +13,12 @@ class SubHeading extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 16, color: AppColors.darkTeal.color)),
+        Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         InkWell(
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Icon(Icons.arrow_forward_ios,  color: AppColors.green.color),
+            child: Icon(Icons.arrow_forward_ios,  color: AppColors.green.color, size: 18,),
           ),
         ),
       ],

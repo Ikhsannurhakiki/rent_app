@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rent_app/presentation/screens/chat_list_screen.dart';
 
 import '../provider/main_provider.dart';
 import '../style/colors/app_colors.dart';
@@ -18,9 +19,16 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
+    const ChatListScreen(),
     const ActivityScreen(),
-    const ChatScreen(),
     const ProfileScreen(),
+  ];
+
+  final List<String> _screensName = [
+    "Home",
+    "Chat",
+    "Activity",
+    "Profile",
   ];
 
   @override
@@ -28,10 +36,6 @@ class _MainScreenState extends State<MainScreen> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = context.watch<MainProvider>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("GoRent"),
-        backgroundColor: AppColors.lightTeal.color,
-      ),
       body: IndexedStack(index: provider.tabIndex, children: _screens),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
@@ -44,19 +48,27 @@ class _MainScreenState extends State<MainScreen> {
           padding: EdgeInsets.zero,
           child: Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
-                icon: Icon(
-                  provider.tabIndex == 0
-                      ? Icons.home_rounded
-                      : Icons.home_outlined,
-                  color: provider.tabIndex == 0
-                      ? AppColors.navyBlue.color
-                      : Colors.grey,
-                  size: 30,
-                ),
-                onPressed: () => provider.setTabIndex(0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      provider.tabIndex == 0
+                          ? Icons.home_rounded
+                          : Icons.home_outlined,
+                      color: provider.tabIndex == 0
+                          ? AppColors.navyBlue.color
+                          : Colors.grey,
+                      size: provider.tabIndex == 0 ? 30 : 20,
+                    ),
+                    onPressed: () => provider.setTabIndex(0),
+                  ),
+                  Text(_screensName[0])
+                ],
               ),
               const SizedBox(width: 3),
               IconButton(
