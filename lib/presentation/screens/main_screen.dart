@@ -50,25 +50,18 @@ class _MainScreenState extends State<MainScreen> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    icon: Icon(
-                      provider.tabIndex == 0
-                          ? Icons.home_rounded
-                          : Icons.home_outlined,
-                      color: provider.tabIndex == 0
-                          ? AppColors.navyBlue.color
-                          : Colors.grey,
-                      size: provider.tabIndex == 0 ? 30 : 20,
-                    ),
-                    onPressed: () => provider.setTabIndex(0),
-                  ),
-                  Text(_screensName[0])
-                ],
+              IconButton(
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  provider.tabIndex == 0
+                      ? Icons.home_rounded
+                      : Icons.home_outlined,
+                  color: provider.tabIndex == 0
+                      ? AppColors.navyBlue.color
+                      : Colors.grey,
+                  size: provider.tabIndex == 0 ?  35 : 25,
+                ),
+                onPressed: () => provider.setTabIndex(0),
               ),
               const SizedBox(width: 3),
               IconButton(
@@ -79,7 +72,8 @@ class _MainScreenState extends State<MainScreen> {
                   color: provider.tabIndex == 1
                       ? AppColors.navyBlue.color
                       : Colors.grey,
-                  size: provider.tabIndex == 1 ? 30 : 20,
+                  size: provider.tabIndex == 1 ?  35 : 25,
+
                 ),
                 onPressed: () => provider.setTabIndex(1),
               ),
@@ -92,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
                   color: provider.tabIndex == 2
                       ? AppColors.navyBlue.color
                       : Colors.grey,
-                  size: provider.tabIndex == 2 ? 30 : 20,
+                  size: provider.tabIndex == 2 ?  35 : 25,
                 ),
                 onPressed: () => provider.setTabIndex(2),
               ),
@@ -102,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
                   color: provider.tabIndex == 3
                       ? AppColors.navyBlue.color
                       : Colors.grey,
-                  size: provider.tabIndex == 3 ? 30 : 20,
+                  size: provider.tabIndex == 3 ? 35 : 25,
                 ),
                 onPressed: () => provider.setTabIndex(3),
               ),
