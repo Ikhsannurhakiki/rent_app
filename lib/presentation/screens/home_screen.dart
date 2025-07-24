@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/presentation/widgets/on_going_card.dart';
 import 'package:rent_app/presentation/widgets/subHeading.dart';
 
 import '../../data/dummyItems.dart';
@@ -45,7 +46,14 @@ class HomeScreen extends StatelessWidget {
             RentBanner(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-              child: SubHeading(title: 'Top Ranted Near You', onTap: () {}),
+              child: SubHeading(title: 'On Going', onTap: () {}),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: OnGoingCard()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              child: SubHeading(title: 'Top Rented Near You', onTap: () {}),
             ),
             SizedBox(
               height: 220,
