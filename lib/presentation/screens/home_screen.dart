@@ -14,23 +14,23 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.lightTeal.color,
+        backgroundColor: Colors.black,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("GoRent"),
+            Image.asset("assets/appbar/appbar.png", width: 100, height:60, fit: BoxFit.fitWidth,),
             FittedBox(
               child: Row(
                 children: const [
-                  Icon(Icons.location_on_outlined, size: 18),
+                  Icon(Icons.location_on_outlined, size: 18, color: Colors.white,),
                   SizedBox(width: 4),
                   Text(
                     "Pekanbaru, Riau",
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(width: 4),
-                  Icon(Icons.arrow_drop_down, size: 25)
+                  Icon(Icons.arrow_drop_down, size: 25, color: Colors.white,)
                 ],
               ),
             ),
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
             RentBanner(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-              child: SubHeading(title: 'On Going', onTap: () {}),
+              child: SubHeading(title: 'On Going . . . . .', onTap: () {}),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

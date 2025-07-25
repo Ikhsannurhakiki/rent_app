@@ -13,7 +13,7 @@ class RentBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset("assets/banner/banner.png", width: double.infinity, fit: BoxFit.fitWidth,),
+        Image.asset("assets/banner/banner2.png", width: double.infinity, fit: BoxFit.fitWidth,),
         Padding(
           padding: const EdgeInsets.only( top: 12, left: 12, right: 12, bottom: 12),
           child: Column(
@@ -34,10 +34,10 @@ class RentBanner extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: AppColors.lightTeal.color,
+                            color: AppColors.blue.color,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Icon(item.icon, size: 28, color: AppColors.darkTeal.color),
+                          child: Icon(item.icon, size: 28, color: Colors.white),
                         ),
                         SizedBox(height: 6),
                         Text(item.label, style: TextStyle(fontSize: 14)),

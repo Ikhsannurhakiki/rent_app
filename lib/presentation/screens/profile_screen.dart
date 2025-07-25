@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
 void main() {
   runApp(const ProfileApp());
@@ -23,8 +24,11 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
-      body: ListView(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text('Profile', style: TextStyle(color: Colors.white)),
+      ),
+      body: Column(
         children: [
           const SizedBox(height: 24),
           const CircleAvatar(
@@ -39,8 +43,6 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
-          const Divider(),
 
           ListTile(
             leading: const Icon(Icons.person_outline),
@@ -79,14 +81,9 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
 
-          const Divider(),
-
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text(
-              "Logout",
-              style: TextStyle(color: Colors.red),
-            ),
+            title: const Text("Logout", style: TextStyle(color: Colors.red)),
             onTap: () {
               // Handle logout
             },

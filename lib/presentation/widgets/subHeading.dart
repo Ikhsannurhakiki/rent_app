@@ -18,7 +18,7 @@ class SubHeading extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Icon(Icons.arrow_forward_ios,  color: AppColors.green.color, size: 18,),
+            child: Icon(Icons.arrow_forward_ios,  color: AppColors.blue.color, size: 18,),
           ),
         ),
       ],

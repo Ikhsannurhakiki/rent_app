@@ -10,7 +10,8 @@ enum AppColors {
   skinTone,
   darkTeal,
   softCream,
-  green
+  green,
+  blue,
 }
 
 extension AppColorExtension on AppColors {
@@ -34,8 +35,10 @@ extension AppColorExtension on AppColors {
         return const Color(0xFF2E5E57);
       case AppColors.softCream:
         return const Color(0xFFF9EFE9);
-        case AppColors.green:
+      case AppColors.green:
         return const Color(0xFF00AA13);
+      case AppColors.blue:
+        return const Color(0xFF1955F4);
       default:
         return const Color(0xFF000000);
     }

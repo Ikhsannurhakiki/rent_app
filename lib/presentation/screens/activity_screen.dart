@@ -10,8 +10,8 @@ class ActivityScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.lightTeal.color,
-        title: const Text('Activity'),
+        backgroundColor: Colors.black,
+        title: const Text('Activity', style: TextStyle(color: Colors.white),),
       ),
       body: ListView(
         children: const [

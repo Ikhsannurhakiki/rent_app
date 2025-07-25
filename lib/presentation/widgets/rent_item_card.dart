@@ -13,8 +13,8 @@ class RentCard extends StatelessWidget {
     return SizedBox(
       width: 190, height: 250,
       child: Card(
-        color: AppColors.lightTeal.color,
-        elevation: 3,
+        shadowColor: Colors.black,
+        elevation: 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(12),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../style/colors/app_colors.dart';
+
 class ActivityCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -22,8 +24,8 @@ class ActivityCard extends StatelessWidget {
       elevation: 3,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.teal.shade100,
-          child: Icon(icon, color: Colors.teal),
+          backgroundColor: AppColors.blue.color,
+          child: Icon(icon, color: Colors.white),
         ),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle),

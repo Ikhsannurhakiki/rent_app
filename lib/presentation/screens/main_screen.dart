@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
           topRight: Radius.circular(20),
         ),
         child: BottomAppBar(
-          color: AppColors.lightTeal.color,
+          color: Colors.black,
           height: 70,
           padding: EdgeInsets.zero,
           child: Row(
@@ -51,13 +51,12 @@ class _MainScreenState extends State<MainScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                padding: EdgeInsets.zero,
                 icon: Icon(
                   provider.tabIndex == 0
                       ? Icons.home_rounded
                       : Icons.home_outlined,
                   color: provider.tabIndex == 0
-                      ? AppColors.navyBlue.color
+                      ? Colors.white
                       : Colors.grey,
                   size: provider.tabIndex == 0 ?  35 : 25,
                 ),
@@ -70,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
                       ? Icons.chat_rounded
                       : Icons.chat_bubble_outline_rounded,
                   color: provider.tabIndex == 1
-                      ? AppColors.navyBlue.color
+                      ? Colors.white
                       : Colors.grey,
                   size: provider.tabIndex == 1 ?  35 : 25,
 
@@ -84,7 +83,7 @@ class _MainScreenState extends State<MainScreen> {
                       ? Icons.history
                       : Icons.history_outlined,
                   color: provider.tabIndex == 2
-                      ? AppColors.navyBlue.color
+                      ? Colors.white
                       : Colors.grey,
                   size: provider.tabIndex == 2 ?  35 : 25,
                 ),
@@ -94,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: Icon(
                   provider.tabIndex == 3 ? Icons.person : Icons.person_outline,
                   color: provider.tabIndex == 3
-                      ? AppColors.navyBlue.color
+                      ?Colors.white
                       : Colors.grey,
                   size: provider.tabIndex == 3 ? 35 : 25,
                 ),
