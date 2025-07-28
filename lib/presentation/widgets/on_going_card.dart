@@ -18,19 +18,32 @@ class OnGoingCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Icon or vehicle thumbnail
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.directions_car,
-                    size: 32,
-                    color: AppColors.darkTeal.color,
-                  ),
+                Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.directions_car,
+                        size: 40,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Icon(
+                        Icons.timer,
+                        size: 26,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(width: 16),
                 // Main content
@@ -47,7 +60,7 @@ class OnGoingCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Row(
-                        children: const [
+                        children: [
                           Icon(Icons.lock_clock, size: 16, color: Colors.red),
                           SizedBox(width: 8),
                           Text(
@@ -61,32 +74,23 @@ class OnGoingCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Row(
-                        children: const [
+                        children: [
                           Icon(
                             Icons.location_on_outlined,
                             size: 16,
-                            color: Colors.red,
+                            color: Colors.black,
                           ),
                           SizedBox(width: 8),
                           Text(
                             "Pekanbaru, Riau",
                             style: TextStyle(
-                              color: Colors.red,
+                              color: Colors.black,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
                       ),
-
                     ],
-                  ),
-                ),
-                Divider(),
-                Text(
-                  "See details",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],

@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-              child: SubHeading(title: 'Closest Recomendation', onTap: () {}),
+              child: SubHeading(title: 'Closest Recommendations', onTap: () {}),
             ),
             SizedBox(
               height: 220,
@@ -82,6 +82,25 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemBuilder: (context, index) {
                   final item = dummyRentItems[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: RentCard(item: item),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              child: SubHeading(title: 'Electric Vehicles', onTap: () {}),
+            ),
+            SizedBox(
+              height: 220,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: dummyeElectricVehicleItems.length,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemBuilder: (context, index) {
+                  final item = dummyeElectricVehicleItems[index];
                   return Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: RentCard(item: item),

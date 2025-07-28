@@ -1,5 +1,41 @@
-import '../presentation/widgets/rent_banner.dart';
 import 'entity/rentItemEntity.dart';
+
+final List<String> bannerUrls = [
+  'assets/banner/banner2.png',
+  'assets/banner/banner3.png',
+];
+
+final List<RentItemEntity> dummyeElectricVehicleItems = [
+  RentItemEntity(
+    id: 'ev1',
+    name: 'Tesla Model 3',
+    imageUrl: 'https://autoride.co.id/wp-content/uploads/2021/06/tesla-model-3-1.jpg',
+    pricePerDay: '\$120/day',
+    category: 'Electric Car',
+  ),
+  RentItemEntity(
+    id: 'ev2',
+    name: 'Nissan Leaf',
+    imageUrl: 'https://img.icarcdn.com/mobil123-news/body/64051-nissan_leaf_rencananya_meluncur_di_indonesia_pada_2021_mundur_setahun_dari_jadwal_3.jpg',
+    pricePerDay: '\$80/day',
+    category: 'Electric Car',
+  ),
+  RentItemEntity(
+    id: 'ev3',
+    name: 'Hyundai Ioniq 5',
+    imageUrl: 'https://carmudi-journal.icarcdn.com/carmudi-id/wp-content/uploads/2021/05/12225635/98-hyundai-ioniq-5-2021-official-images-static-side-1024x682.jpg',
+    pricePerDay: '\$100/day',
+    category: 'Electric Car',
+  ),
+  RentItemEntity(
+    id: 'ev4',
+    name: 'BYD Dolphin',
+    imageUrl: 'https://imgcdn.zigwheels.ph/large/gallery/roadtest/64/3095/byd-dolphin-front-angle-low-view-158434.jpg',
+    pricePerDay: '\$65/day',
+    category: 'Electric Car',
+  ),
+];
+
 
 final List<RentItemEntity> dummyRentItems = [
   RentItemEntity(

@@ -43,6 +43,7 @@ dependencies:
   geocoding: ^4.0.0
   location: ^8.0.1
   provider: ^6.1.5
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
   assets:
       - assets/banner/banner.png
       - assets/banner/banner2.png
+      - assets/banner/banner3.png
       - assets/appbar/appbar.png
   #   - images/a_dot_ham.jpeg
 

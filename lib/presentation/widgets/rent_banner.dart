@@ -1,5 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:rent_app/presentation/style/colors/app_colors.dart';
+
+import '../../data/dummyItems.dart';
 
 class RentBanner extends StatelessWidget {
   final List<RentItem> items = [
@@ -13,15 +16,42 @@ class RentBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset("assets/banner/banner2.png", width: double.infinity, fit: BoxFit.fitWidth,),
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 200.0,
+            autoPlay: true,
+            enlargeCenterPage: true,
+            viewportFraction: 0.95,
+            aspectRatio: 16 / 9,
+          ),
+          items: bannerUrls.map((url) {
+            return Builder(
+              builder: (BuildContext context) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    url,
+                    width: double.infinity,
+                    fit: BoxFit.fitWidth,
+                  ),
+                );
+              },
+            );
+          }).toList(),
+        ),
         Padding(
-          padding: const EdgeInsets.only( top: 12, left: 12, right: 12, bottom: 12),
+          padding: const EdgeInsets.only(
+            top: 12,
+            left: 12,
+            right: 12,
+            bottom: 12,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 85,
-                child:  GridView.count(
+                child: GridView.count(
                   crossAxisCount: 4,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
