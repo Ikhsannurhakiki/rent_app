@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
-import '../../data/entity/rentItemEntity.dart';
+import '../../data/entities/rentItemEntity.dart';
 
 class RentCard extends StatelessWidget {
   final RentItemEntity item;

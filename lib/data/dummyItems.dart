@@ -1,4 +1,4 @@
-import 'entity/rentItemEntity.dart';
+import 'entities/rentItemEntity.dart';
 
 final List<String> bannerUrls = [
   'assets/banner/banner2.png',
