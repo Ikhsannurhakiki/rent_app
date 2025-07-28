@@ -1,11 +1,13 @@
-import '../entities/unit_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class UnitModel {
-  final String id;
+import '../entities/Unit.dart';
+
+class UnitModel extends Equatable {
+  final int id;
   final int ownerId;
+  final String unitType;
   final String name;
   final String description;
-  final String unitType;
   final double dailyRate;
   final String currency;
   final String location;
@@ -13,12 +15,12 @@ class UnitModel {
   final String thumbnailImageUrl;
   final List<String>? imageGallery;
 
-  UnitModel({
+  const UnitModel({
     required this.id,
     required this.ownerId,
+    required this.unitType,
     required this.name,
     required this.description,
-    required this.unitType,
     required this.dailyRate,
     required this.currency,
     required this.location,
@@ -27,15 +29,14 @@ class UnitModel {
     this.imageGallery,
   });
 
-  /// Factory method to parse from JSON
   factory UnitModel.fromJson(Map<String, dynamic> json) {
     return UnitModel(
-      id: json['id'].toString(),
-      ownerId: int.parse(json['owner_id'].toString()),
+      id: int.parse(json['unit_id']),
+      ownerId: int.parse(json['owner_id']),
+      unitType: json['unit_type'],
       name: json['name'],
       description: json['description'],
-      unitType: json['unit_type'],
-      dailyRate: double.parse(json['daily_rate'].toString()),
+      dailyRate: double.parse(json['daily_rate']),
       currency: json['currency'],
       location: json['location'],
       availabilityStatus: json['availability_status'],
@@ -46,31 +47,30 @@ class UnitModel {
     );
   }
 
-  /// Convert to JSON
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'owner_id': ownerId,
+      'unit_id': id.toString(),
+      'owner_id': ownerId.toString(),
+      'unit_type': unitType,
       'name': name,
       'description': description,
-      'unit_type': unitType,
-      'daily_rate': dailyRate,
+      'daily_rate': dailyRate.toString(),
       'currency': currency,
       'location': location,
       'availability_status': availabilityStatus,
       'thumbnail_image_url': thumbnailImageUrl,
-      'image_gallery': imageGallery,
+      if (imageGallery != null) 'image_gallery': imageGallery,
     };
   }
 
-  /// Convert to Entity
-  UnitEntity toEntity() {
-    return UnitEntity(
+  /// 🔁 Converts `UnitModel` to domain `Unit` entity
+  Unit toEntity() {
+    return Unit(
       id: id,
       ownerId: ownerId,
+      unitType: unitType,
       name: name,
       description: description,
-      unitType: unitType,
       dailyRate: dailyRate,
       currency: currency,
       location: location,
@@ -80,20 +80,18 @@ class UnitModel {
     );
   }
 
-  /// Factory from entity
-  factory UnitModel.fromEntity(UnitEntity entity) {
-    return UnitModel(
-      id: entity.id,
-      ownerId: entity.ownerId,
-      name: entity.name,
-      description: entity.description,
-      unitType: entity.unitType,
-      dailyRate: entity.dailyRate,
-      currency: entity.currency,
-      location: entity.location,
-      availabilityStatus: entity.availabilityStatus,
-      thumbnailImageUrl: entity.thumbnailImageUrl,
-      imageGallery: entity.imageGallery,
-    );
-  }
+  @override
+  List<Object?> get props => [
+    id,
+    ownerId,
+    unitType,
+    name,
+    description,
+    dailyRate,
+    currency,
+    location,
+    availabilityStatus,
+    thumbnailImageUrl,
+    imageGallery,
+  ];
 }

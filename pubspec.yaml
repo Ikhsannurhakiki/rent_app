@@ -46,6 +46,8 @@ dependencies:
   carousel_slider: ^5.1.1
   google_fonts: ^6.2.1
   equatable: ^2.0.5
+  dartz: ^0.10.1
+  http: ^1.4.0
 
 
 dev_dependencies:

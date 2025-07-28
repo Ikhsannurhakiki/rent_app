@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
+import '../../data/entities/Unit.dart';
 import '../../data/entities/rentItemEntity.dart';
 
 class RentCard extends StatelessWidget {
-  final RentItemEntity item;
+  final Unit item;
 
   const RentCard({super.key, required this.item});
 
@@ -21,11 +22,11 @@ class RentCard extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Image.network(item.imageUrl, fit: BoxFit.scaleDown),
+                child: Image.network(item.thumbnailImageUrl, fit: BoxFit.scaleDown),
               ),
               const SizedBox(height: 8),
               Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(item.pricePerDay, style: TextStyle(color: AppColors.darkTeal.color, fontWeight: FontWeight.bold)),
+              Text(item.dailyRate.toString(), style: TextStyle(color: AppColors.darkTeal.color, fontWeight: FontWeight.bold)),
             ],
           ),
         ),
