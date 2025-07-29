@@ -16,6 +16,7 @@ class RentBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 12),
         CarouselSlider(
           options: CarouselOptions(
             height: 200.0,

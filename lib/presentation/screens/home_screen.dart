@@ -9,6 +9,7 @@ import '../provider/notifier.dart';
 import '../style/colors/app_colors.dart';
 import '../widgets/rent_banner.dart';
 import '../widgets/rent_item_card.dart';
+import 'detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -87,21 +88,46 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: SubHeading(title: 'Top Rented Near You', onTap: () {}),
             ),
-            // SizedBox(
-            //   height: 220,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: dummyRentItems.length,
-            //     padding: const EdgeInsets.symmetric(horizontal: 16),
-            //     itemBuilder: (context, index) {
-            //       final item = dummyRentItems[index];
-            //       return Padding(
-            //         padding: const EdgeInsets.only(right: 12),
-            //         child: RentCard(item: item),
-            //       );
-            //     },
-            //   ),
-            // ),
+            Consumer<UnitNotifier>(
+              builder: (context, data, child) {
+                print(data.recommendationUnitsState);
+                if (data.recommendationUnitsState == RequestState.Loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (data.recommendationUnitsState ==
+                    RequestState.Loaded) {
+                  return SizedBox(
+                    height: 220,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: data.recommendationsUnit.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (context, index) {
+                        final item = data.recommendationsUnit[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: RentCard(
+                            item: item,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailScreen(unit: item),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    key: Key('error_message'),
+                    child: Text("Error loading data"),
+                  );
+                }
+              },
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
@@ -114,23 +140,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 print(data.recommendationUnitsState);
                 if (data.recommendationUnitsState == RequestState.Loading) {
                   return const Center(child: CircularProgressIndicator());
-                } else if (data.recommendationUnitsState == RequestState.Loaded) {
-                  return
-                    SizedBox(
-                      height: 220,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: data.recommendationsUnit.length,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemBuilder: (context, index) {
-                          final item = data.recommendationsUnit[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: RentCard(item: item),
-                          );
-                        },
-                      ),
-                    );
+                } else if (data.recommendationUnitsState ==
+                    RequestState.Loaded) {
+                  return SizedBox(
+                    height: 220,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: data.recommendationsUnit.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (context, index) {
+                        final item = data.recommendationsUnit[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: RentCard(
+                            item: item,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailScreen(unit: item),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
                 } else {
                   return const Center(
                     key: Key('error_message'),
@@ -146,21 +182,46 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: SubHeading(title: 'Electric Vehicles', onTap: () {}),
             ),
-            // SizedBox(
-            //   height: 220,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: dummyeElectricVehicleItems.length,
-            //     padding: const EdgeInsets.symmetric(horizontal: 16),
-            //     itemBuilder: (context, index) {
-            //       final item = dummyeElectricVehicleItems[index];
-            //       return Padding(
-            //         padding: const EdgeInsets.only(right: 12),
-            //         child: RentCard(item: item),
-            //       );
-            //     },
-            //   ),
-            // ),
+            Consumer<UnitNotifier>(
+              builder: (context, data, child) {
+                print(data.recommendationUnitsState);
+                if (data.recommendationUnitsState == RequestState.Loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (data.recommendationUnitsState ==
+                    RequestState.Loaded) {
+                  return SizedBox(
+                    height: 220,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: data.recommendationsUnit.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (context, index) {
+                        final item = data.recommendationsUnit[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: RentCard(
+                            item: item,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailScreen(unit: item),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    key: Key('error_message'),
+                    child: Text("Error loading data"),
+                  );
+                }
+              },
+            ),
             SizedBox(height: 16),
           ],
         ),
