@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/presentation/provider/main_provider.dart';
-import 'package:rent_app/presentation/provider/notifier.dart';
+import 'package:rent_app/presentation/provider/unit_notifier.dart';
 import 'package:rent_app/presentation/screens/main_screen.dart';
 import 'package:rent_app/presentation/style/theme/app_theme.dart';
 

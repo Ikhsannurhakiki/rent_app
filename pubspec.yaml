@@ -48,6 +48,7 @@ dependencies:
   equatable: ^2.0.5
   dartz: ^0.10.1
   http: ^1.4.0
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:
