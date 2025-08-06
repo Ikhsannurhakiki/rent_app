@@ -2,12 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
-class OnGoingCard extends StatelessWidget {
+import '../../data/dummy/dummy.dart';
+
+class OnGoingCard extends StatefulWidget {
   const OnGoingCard({super.key});
 
   @override
+  State<OnGoingCard> createState() => _OnGoingCardState();
+}
+
+class _OnGoingCardState extends State<OnGoingCard> {
+  int _currentIndex = 0;
+  final unit = Unit.dummy();
+  @override
   Widget build(BuildContext context) {
-    return Column(
+    return
+      Column(
       children: [
         Card(
           color: Colors.white,
@@ -91,6 +101,41 @@ class OnGoingCard extends StatelessWidget {
                         ],
                       ),
                     ],
+                  ),
+                ),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: 1.0, // you can change this to 0.0 to hide
+                  curve: Curves.easeInOut,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black, // semi-transparent background
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: unit.images.asMap().entries.map((
+                          entry,
+                          ) {
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 400),
+                          width: _currentIndex == entry.key ? 10.0 : 4.0,
+                          height: _currentIndex == entry.key ? 10.0 : 4.0,
+                          margin: const EdgeInsets.symmetric(vertical: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _currentIndex == entry.key
+                                ? Theme.of(context).colorScheme.secondary
+                                : Colors.white,
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ],

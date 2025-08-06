@@ -2,7 +2,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:rent_app/data/models/specific_detail_entity.dart';
 
-
 // Kelas utama untuk merepresentasikan semua data detail unit
 class UnitDetailModel extends Equatable {
   final int unitId;
@@ -98,9 +97,11 @@ class UnitDetailModel extends Equatable {
       if (specificDetails is CarDetailModel) {
         json['specific_details'] = (specificDetails as CarDetailModel).toJson();
       } else if (specificDetails is MotorcycleDetailModel) {
-        json['specific_details'] = (specificDetails as MotorcycleDetailModel).toJson();
+        json['specific_details'] = (specificDetails as MotorcycleDetailModel)
+            .toJson();
       } else if (specificDetails is HouseDetailModel) {
-        json['specific_details'] = (specificDetails as HouseDetailModel).toJson();
+        json['specific_details'] = (specificDetails as HouseDetailModel)
+            .toJson();
       }
     } else {
       json['specific_details'] = {};
@@ -136,9 +137,11 @@ class UnitDetailModel extends Equatable {
       if (specificDetails is CarDetailModel) {
         entitySpecificDetails = (specificDetails as CarDetailModel).toEntity();
       } else if (specificDetails is MotorcycleDetailModel) {
-        entitySpecificDetails = (specificDetails as MotorcycleDetailModel).toEntity();
+        entitySpecificDetails = (specificDetails as MotorcycleDetailModel)
+            .toEntity();
       } else if (specificDetails is HouseDetailModel) {
-        entitySpecificDetails = (specificDetails as HouseDetailModel).toEntity();
+        entitySpecificDetails = (specificDetails as HouseDetailModel)
+            .toEntity();
       }
     }
 
@@ -164,6 +167,7 @@ class UnitDetailModel extends Equatable {
 // Abstract class untuk detail spesifik
 abstract class SpecificDetails extends Equatable {
   Map<String, dynamic> toJson();
+
   SpecificDetailsEntity toEntity(); // Tambahkan deklarasi toEntity
   @override
   List<Object?> get props;
@@ -181,8 +185,10 @@ class CarDetailModel extends SpecificDetails {
   final int passengerCapacity;
   final String licensePlate;
   final String color;
+  final String subType;
+  final String engine;
 
-   CarDetailModel({
+  CarDetailModel({
     required this.carDetailId,
     required this.unitId,
     required this.make,
@@ -193,6 +199,8 @@ class CarDetailModel extends SpecificDetails {
     required this.passengerCapacity,
     required this.licensePlate,
     required this.color,
+    required this.subType,
+    required this.engine,
   });
 
   factory CarDetailModel.fromJson(Map<String, dynamic> json) {
@@ -204,9 +212,12 @@ class CarDetailModel extends SpecificDetails {
       year: int.tryParse(json['year']?.toString() ?? '') ?? 0,
       transmission: json['transmission'] as String,
       fuelType: json['fuel_type'] as String,
-      passengerCapacity: int.tryParse(json['passenger_capacity']?.toString() ?? '') ?? 0,
+      passengerCapacity:
+          int.tryParse(json['passenger_capacity']?.toString() ?? '') ?? 0,
       licensePlate: json['license_plate'] as String,
       color: json['color'] as String,
+      subType: json['sub_type'] as String,
+      engine: json['engine'] as String,
     );
   }
 
@@ -223,13 +234,25 @@ class CarDetailModel extends SpecificDetails {
       'passenger_capacity': passengerCapacity,
       'license_plate': licensePlate,
       'color': color,
+      'sub_type': subType,
+      'engine': engine,
     };
   }
 
   @override
   List<Object?> get props => [
-    carDetailId, unitId, make, model, year,
-    transmission, fuelType, passengerCapacity, licensePlate, color,
+    carDetailId,
+    unitId,
+    make,
+    model,
+    year,
+    transmission,
+    fuelType,
+    passengerCapacity,
+    licensePlate,
+    color,
+    subType,
+    engine,
   ];
 
   // ======================================
@@ -248,6 +271,8 @@ class CarDetailModel extends SpecificDetails {
       passengerCapacity: passengerCapacity,
       licensePlate: licensePlate,
       color: color,
+      subType: subType,
+      engine: engine,
     );
   }
 }
@@ -264,7 +289,7 @@ class MotorcycleDetailModel extends SpecificDetails {
   final String licensePlate;
   final String color;
 
-   MotorcycleDetailModel({
+  MotorcycleDetailModel({
     required this.motorcycleDetailId,
     required this.unitId,
     required this.make,
@@ -278,7 +303,8 @@ class MotorcycleDetailModel extends SpecificDetails {
 
   factory MotorcycleDetailModel.fromJson(Map<String, dynamic> json) {
     return MotorcycleDetailModel(
-      motorcycleDetailId: int.tryParse(json['motorcycle_detail_id']?.toString() ?? '') ?? 0,
+      motorcycleDetailId:
+          int.tryParse(json['motorcycle_detail_id']?.toString() ?? '') ?? 0,
       unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
       make: json['make'] as String,
       model: json['model'] as String,
@@ -307,8 +333,15 @@ class MotorcycleDetailModel extends SpecificDetails {
 
   @override
   List<Object?> get props => [
-    motorcycleDetailId, unitId, make, model, year,
-    engineCc, transmission, licensePlate, color,
+    motorcycleDetailId,
+    unitId,
+    make,
+    model,
+    year,
+    engineCc,
+    transmission,
+    licensePlate,
+    color,
   ];
 
   // ======================================
@@ -344,7 +377,7 @@ class HouseDetailModel extends SpecificDetails {
   final String postalCode;
   final String? amenities;
 
-   HouseDetailModel({
+  HouseDetailModel({
     required this.houseDetailId,
     required this.unitId,
     required this.numBedrooms,
@@ -360,7 +393,8 @@ class HouseDetailModel extends SpecificDetails {
 
   factory HouseDetailModel.fromJson(Map<String, dynamic> json) {
     return HouseDetailModel(
-      houseDetailId: int.tryParse(json['house_detail_id']?.toString() ?? '') ?? 0,
+      houseDetailId:
+          int.tryParse(json['house_detail_id']?.toString() ?? '') ?? 0,
       unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
       numBedrooms: int.tryParse(json['num_bedrooms']?.toString() ?? '') ?? 0,
       numBathrooms: int.tryParse(json['num_bathrooms']?.toString() ?? '') ?? 0,
@@ -393,8 +427,17 @@ class HouseDetailModel extends SpecificDetails {
 
   @override
   List<Object?> get props => [
-    houseDetailId, unitId, numBedrooms, numBathrooms, areaSqm,
-    propertyType, fullAddress, city, province, postalCode, amenities,
+    houseDetailId,
+    unitId,
+    numBedrooms,
+    numBathrooms,
+    areaSqm,
+    propertyType,
+    fullAddress,
+    city,
+    province,
+    postalCode,
+    amenities,
   ];
 
   // ======================================
@@ -435,7 +478,8 @@ class UnitImageModel extends Equatable {
       imageId: int.tryParse(json['image_id']?.toString() ?? '') ?? 0,
       imageUrl: json['image_url'] as String,
       isThumbnail:
-      json['is_thumbnail'].toString() == '1' || json['is_thumbnail'] == true,
+          json['is_thumbnail'].toString() == '1' ||
+          json['is_thumbnail'] == true,
     );
   }
 

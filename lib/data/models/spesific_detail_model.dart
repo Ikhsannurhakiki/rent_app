@@ -14,8 +14,10 @@ class CarDetailModel implements SpecificDetails {
   final String transmission;
   final String fuelType;
   final int passengerCapacity;
-  final String licensePlate; // Berdasarkan kode Anda, ini required
-  final String color; // Berdasarkan kode Anda, ini required
+  final String licensePlate;
+  final String color;
+  final String subType;
+  final String engine;
 
   CarDetailModel({
     required this.carDetailId,
@@ -28,6 +30,8 @@ class CarDetailModel implements SpecificDetails {
     required this.passengerCapacity,
     required this.licensePlate,
     required this.color,
+    required this.subType,
+    required this.engine,
   });
 
   factory CarDetailModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +46,8 @@ class CarDetailModel implements SpecificDetails {
       passengerCapacity: int.tryParse(json['passenger_capacity']?.toString() ?? '') ?? 0,
       licensePlate: json['license_plate'] as String,
       color: json['color'] as String,
+      subType: json['sub_type'] as String,
+      engine: json['engine'] as String,
     );
   }
 
@@ -59,6 +65,8 @@ class CarDetailModel implements SpecificDetails {
       'passenger_capacity': passengerCapacity,
       'license_plate': licensePlate,
       'color': color,
+      'sub_type': subType,
+      'engine': engine,
     };
   }
 }
@@ -72,8 +80,10 @@ class MotorcycleDetailModel implements SpecificDetails {
   final int year;
   final int engineCc;
   final String transmission;
-  final String licensePlate; // Berdasarkan kode Anda, ini required
-  final String color; // Berdasarkan kode Anda, ini required
+  final String licensePlate;
+  final String color;
+  final String subType;
+  final String engine;
 
   MotorcycleDetailModel({
     required this.motorcycleDetailId,
@@ -85,6 +95,8 @@ class MotorcycleDetailModel implements SpecificDetails {
     required this.transmission,
     required this.licensePlate,
     required this.color,
+    required this.subType,
+    required this.engine,
   });
 
   factory MotorcycleDetailModel.fromJson(Map<String, dynamic> json) {
@@ -98,6 +110,8 @@ class MotorcycleDetailModel implements SpecificDetails {
       transmission: json['transmission'] as String,
       licensePlate: json['license_plate'] as String,
       color: json['color'] as String,
+      subType: json['sub_type'] as String,
+      engine: json['engine'] as String,
     );
   }
 
@@ -114,6 +128,8 @@ class MotorcycleDetailModel implements SpecificDetails {
       'transmission': transmission,
       'license_plate': licensePlate,
       'color': color,
+      'sub_type': subType,
+      'engine': engine,
     };
   }
 }

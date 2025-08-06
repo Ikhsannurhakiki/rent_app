@@ -62,16 +62,26 @@ class RentBanner extends StatelessWidget {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppColors.blue.color,
-                            borderRadius: BorderRadius.circular(12),
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                              color: AppColors.blue.color,
+                              width: 2,
+                            ),
                           ),
-                          child: Icon(item.icon, size: 28, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              item.icon,
+                              size: 28,
+                              color: AppColors.blue.color,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 6),
-                        Text(item.label, style: TextStyle(fontSize: 14)),
+                        Text(item.label, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSecondary, fontWeight: FontWeight.bold)),
                       ],
                     );
                   }).toList(),

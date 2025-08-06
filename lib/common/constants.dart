@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
 const String BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -15,9 +16,11 @@ const Color kGrey = Color(0xFF303030);
 final TextStyle kHeading5 =
     GoogleFonts.poppins(fontSize: 23, fontWeight: FontWeight.w400);
 final TextStyle kHeading6 = GoogleFonts.poppins(
-    fontSize: 19, fontWeight: FontWeight.w500, letterSpacing: 0.15);
+    fontSize: 19, fontWeight: FontWeight.bold, letterSpacing: 0.15);
 final TextStyle kSubtitle = GoogleFonts.poppins(
     fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.15);
+final TextStyle kDailyRate = GoogleFonts.poppins(
+    fontSize: 15, fontWeight: FontWeight.bold, letterSpacing: 0.15, color:  AppColors.blue.color);
 final TextStyle kBodyText = GoogleFonts.poppins(
     fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 0.25);
 

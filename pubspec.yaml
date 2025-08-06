@@ -49,6 +49,8 @@ dependencies:
   dartz: ^0.10.1
   http: ^1.4.0
   flutter_rating_bar: ^4.0.1
+  flutter_svg: ^2.2.0
+  lottie: ^3.3.1
 
 
 dev_dependencies:
@@ -78,7 +80,17 @@ flutter:
       - assets/banner/banner.png
       - assets/banner/banner2.png
       - assets/banner/banner3.png
-      - assets/appbar/appbar.png
+      - assets/appbar/appbar1.png
+      - assets/appbar/appbar2.png
+      - assets/icons/gasoline.png
+      - assets/icons/ink.png
+      - assets/icons/seat.png
+      - assets/icons/transmission.png
+      - assets/icons/auto.png
+      - assets/icons/plate.png
+      - assets/icons/engine.png
+      - assets/lottie/success.json
+      - assets/lottie/failed.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

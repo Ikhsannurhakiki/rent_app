@@ -7,17 +7,19 @@ import 'package:rent_app/presentation/provider/unit_notifier.dart';
 
 import 'data/datasource/remote_data_source.dart';
 import 'data/usecase/get_unit_detail.dart';
+import 'data/usecase/get_unit_types.dart';
 
 final locator = GetIt.instance;
 
 void init() {
   locator.registerLazySingleton(
     () => UnitNotifier(
+      getUnitTypes: locator(),
       getRecommendationsUnit: locator(),
       getDetailUnit: locator(),
     ),
   );
-
+  locator.registerLazySingleton(() => GetUnitTypes(locator()));
   locator.registerLazySingleton(() => GetUnit(locator()));
   locator.registerLazySingleton(() => GetUnitDetail(locator()));
 

@@ -24,12 +24,7 @@ class _MainScreenState extends State<MainScreen> {
     const ProfileScreen(),
   ];
 
-  final List<String> _screensName = [
-    "Home",
-    "Chat",
-    "Activity",
-    "Profile",
-  ];
+  final List<String> _screensName = ["Home", "Chat", "Activity", "Profile"];
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +38,6 @@ class _MainScreenState extends State<MainScreen> {
           topRight: Radius.circular(20),
         ),
         child: BottomAppBar(
-          color: Colors.black,
           height: 70,
           padding: EdgeInsets.zero,
           child: Row(
@@ -56,9 +50,9 @@ class _MainScreenState extends State<MainScreen> {
                       ? Icons.home_rounded
                       : Icons.home_outlined,
                   color: provider.tabIndex == 0
-                      ? Colors.white
+                      ? Theme.of(context).colorScheme.primary
                       : Colors.grey,
-                  size: provider.tabIndex == 0 ?  35 : 25,
+                  size: provider.tabIndex == 0 ? 35 : 25,
                 ),
                 onPressed: () => provider.setTabIndex(0),
               ),
@@ -69,10 +63,9 @@ class _MainScreenState extends State<MainScreen> {
                       ? Icons.chat_rounded
                       : Icons.chat_bubble_outline_rounded,
                   color: provider.tabIndex == 1
-                      ? Colors.white
+                      ? Theme.of(context).colorScheme.primary
                       : Colors.grey,
-                  size: provider.tabIndex == 1 ?  35 : 25,
-
+                  size: provider.tabIndex == 1 ? 35 : 25,
                 ),
                 onPressed: () => provider.setTabIndex(1),
               ),
@@ -83,9 +76,9 @@ class _MainScreenState extends State<MainScreen> {
                       ? Icons.history
                       : Icons.history_outlined,
                   color: provider.tabIndex == 2
-                      ? Colors.white
+                      ? Theme.of(context).colorScheme.primary
                       : Colors.grey,
-                  size: provider.tabIndex == 2 ?  35 : 25,
+                  size: provider.tabIndex == 2 ? 35 : 25,
                 ),
                 onPressed: () => provider.setTabIndex(2),
               ),
@@ -93,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: Icon(
                   provider.tabIndex == 3 ? Icons.person : Icons.person_outline,
                   color: provider.tabIndex == 3
-                      ?Colors.white
+                      ? Theme.of(context).colorScheme.primary
                       : Colors.grey,
                   size: provider.tabIndex == 3 ? 35 : 25,
                 ),

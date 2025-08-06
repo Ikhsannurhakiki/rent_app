@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rent_app/presentation/screens/detail_page.dart';
 import 'package:rent_app/presentation/widgets/on_going_card.dart';
 import 'package:rent_app/presentation/widgets/subHeading.dart';
 
@@ -23,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<UnitNotifier>(context, listen: false).fetchRecommendations();
+      Provider.of<UnitNotifier>(context, listen: false)
+        ..fetchRecommendations()
+          ..fetchUnitTypes();
     });
   }
 
@@ -31,12 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-              "assets/appbar/appbar.png",
+              "assets/appbar/appbar1.png",
               width: 100,
               height: 60,
               fit: BoxFit.fitWidth,
@@ -47,16 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icon(
                     Icons.location_on_outlined,
                     size: 18,
-                    color: Colors.white,
                   ),
                   SizedBox(width: 4),
                   Text(
                     "Pekanbaru, Riau",
-                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    style: TextStyle(fontSize: 14),
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(width: 4),
-                  Icon(Icons.arrow_drop_down, size: 25, color: Colors.white),
+                  Icon(Icons.arrow_drop_down, size: 25),
                 ],
               ),
             ),
@@ -75,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 horizontal: 16.0,
                 vertical: 8,
               ),
-              child: SubHeading(title: 'On Going . . . . .', onTap: () {}),
+              child: SubHeading(title: 'On Going . . . . .',icon:  Icons.navigate_next_rounded, onTap: () {}),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -86,13 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 horizontal: 16.0,
                 vertical: 8,
               ),
-              child: SubHeading(title: 'Top Rented Near You', onTap: () {}),
+              child: SubHeading(title: 'Top Rented Near You',icon:  Icons.navigate_next_rounded, onTap: () {}),
             ),
             Consumer<UnitNotifier>(
               builder: (context, data, child) {
                 print(data.recommendationUnitsState);
                 if (data.recommendationUnitsState == RequestState.Loading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return SizedBox(
+                    height: 100,
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
                 } else if (data.recommendationUnitsState ==
                     RequestState.Loaded) {
                   return SizedBox(
@@ -111,7 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => DetailScreen(unitId: item.id),
+                                  builder: (_) => UnitDetailPage(
+                                    id: item.id,
+                                    type: item.unitType,
+                                  ),
                                 ),
                               );
                             },
@@ -123,7 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return const Center(
                     key: Key('error_message'),
-                    child: Text("Error loading data"),
+                    child: SizedBox(
+                      height: 100,
+                      child: Center(child: Text("Error loading data")),
+                    ),
                   );
                 }
               },
@@ -133,13 +145,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 horizontal: 16.0,
                 vertical: 8,
               ),
-              child: SubHeading(title: 'Closest Recommendations', onTap: () {}),
+              child: SubHeading(title: 'Closest Recommendations',icon:  Icons.navigate_next_rounded, onTap: () {}),
             ),
             Consumer<UnitNotifier>(
               builder: (context, data, child) {
                 print(data.recommendationUnitsState);
                 if (data.recommendationUnitsState == RequestState.Loading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return SizedBox(
+                    height: 100,
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
                 } else if (data.recommendationUnitsState ==
                     RequestState.Loaded) {
                   return SizedBox(
@@ -158,7 +173,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => DetailScreen(unitId: item.id),
+                                  builder: (_) => UnitDetailPage(
+                                    id: item.id,
+                                    type: item.unitType,
+                                  ),
                                 ),
                               );
                             },
@@ -170,7 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return const Center(
                     key: Key('error_message'),
-                    child: Text("Error loading data"),
+                    child: SizedBox(
+                      height: 100,
+                      child: Center(child: Text("Error loading data")),
+                    ),
                   );
                 }
               },
@@ -180,13 +201,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 horizontal: 16.0,
                 vertical: 8,
               ),
-              child: SubHeading(title: 'Electric Vehicles', onTap: () {}),
+              child: SubHeading(title: 'Electric Vehicles',icon:  Icons.navigate_next_rounded, onTap: () {}),
             ),
             Consumer<UnitNotifier>(
               builder: (context, data, child) {
                 print(data.recommendationUnitsState);
                 if (data.recommendationUnitsState == RequestState.Loading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return SizedBox(
+                    height: 100,
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
                 } else if (data.recommendationUnitsState ==
                     RequestState.Loaded) {
                   return SizedBox(
@@ -205,7 +229,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) =>DetailScreen(unitId: item.id),
+                                  builder: (_) => UnitDetailPage(
+                                    id: item.id,
+                                    type: item.unitType,
+                                  ),
                                 ),
                               );
                             },
@@ -217,7 +244,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return const Center(
                     key: Key('error_message'),
-                    child: Text("Error loading data"),
+                    child: SizedBox(
+                      height: 100,
+                      child: Center(child: Text("Error loading data")),
+                    ),
                   );
                 }
               },

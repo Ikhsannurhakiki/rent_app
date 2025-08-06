@@ -54,7 +54,7 @@ class AppTheme {
 
   static ColorScheme get appDarkColorScheme => ColorScheme(
     brightness: Brightness.dark,
-    primary: Color(0xFF00AA13),
+    primary:  Color(0xFF000000),
     onPrimary: Color(0xFF000000),
     secondary: Color(0xFFE0E0E0),
     onSecondary: Color(0xFF000000),
@@ -68,11 +68,11 @@ class AppTheme {
 
   static ColorScheme get applightColorScheme => ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xFF00AA13),
-    onPrimary: Color(0xFFFFFFFF),
-    secondary: Color(0xFF161616),
-    onSecondary: Color(0xFFFFFFFF),
-    background: Color(0xFFF6F6F6),
+    primary:Color(0xFF1955F4),
+    onPrimary: Color(0xFF000000),
+    secondary: Color(0xFF1955F4),
+    onSecondary:Color(0xFFFFFFFF),
+    background: Color(0xFF000000),
     onBackground: Color(0xFF000000),
     surface: Color(0xFFFFFFFF),
     onSurface: Color(0xFF161616),

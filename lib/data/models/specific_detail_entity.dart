@@ -69,6 +69,8 @@ class CarDetailEntity extends SpecificDetailsEntity {
   final int passengerCapacity;
   final String licensePlate;
   final String color;
+  final String subType;
+  final String engine;
 
   CarDetailEntity({
     required this.carDetailId,
@@ -81,6 +83,8 @@ class CarDetailEntity extends SpecificDetailsEntity {
     required this.passengerCapacity,
     required this.licensePlate,
     required this.color,
+    required this.subType,
+    required this.engine,
   });
 
   @override
@@ -95,6 +99,8 @@ class CarDetailEntity extends SpecificDetailsEntity {
     passengerCapacity,
     licensePlate,
     color,
+    subType,
+    engine,
   ];
 }
 

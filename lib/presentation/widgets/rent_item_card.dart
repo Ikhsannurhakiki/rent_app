@@ -14,21 +14,39 @@ class RentCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 190, height: 250,
+        width: 190,
+        height: 250,
         child: Card(
           shadowColor: Colors.black,
-          elevation: 10,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
                 Expanded(
-                  child: Image.network(item.thumbnailImageUrl, fit: BoxFit.scaleDown),
+                  child: Image.network(
+                    item.thumbnailImageUrl,
+                    fit: BoxFit.scaleDown,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.broken_image, color: Colors.grey, size: 40,);
+                    },
+                  ),
                 ),
                 const SizedBox(height: 8),
-                Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text("${item.currency} ${item.dailyRate.toString()}", style: TextStyle(color: AppColors.darkTeal.color, fontWeight: FontWeight.bold)),
+                Text(
+                  item.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "${item.currency} ${item.dailyRate.toString()}",
+                  style: TextStyle(
+                    color: AppColors.darkTeal.color,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),

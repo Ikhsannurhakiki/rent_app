@@ -4,9 +4,10 @@ import 'package:rent_app/presentation/style/typography/app_text_styles.dart';
 
 class SubHeading extends StatelessWidget {
   final String title;
+  final IconData? icon;
   final Function() onTap;
 
-  const SubHeading({super.key, required this.title, required this.onTap});
+  const SubHeading({super.key, required this.title, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class SubHeading extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Icon(Icons.arrow_forward_ios,  color: AppColors.blue.color, size: 18,),
+            child: Icon(icon,  color: AppColors.blue.color, size: 18,),
           ),
         ),
       ],
