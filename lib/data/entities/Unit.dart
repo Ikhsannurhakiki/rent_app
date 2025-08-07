@@ -5,7 +5,7 @@ class Unit extends Equatable {
     required this.id,
     required this.name,
     required this.description,
-    required this.unitType,
+    required this.unitTypeId,
     required this.dailyRate,
     required this.currency,
     required this.location,
@@ -25,7 +25,7 @@ class Unit extends Equatable {
   final int id;
   final String name;
   final String? description;
-  final String unitType;
+  final int unitTypeId;
   final double dailyRate;
   final String currency;
   final String location;
@@ -39,7 +39,7 @@ class Unit extends Equatable {
     id,
     name,
     description,
-    unitType,
+    unitTypeId,
     dailyRate,
     currency,
     location,

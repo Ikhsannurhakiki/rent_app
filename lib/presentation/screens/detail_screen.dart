@@ -250,7 +250,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         children: [
                           Icon(Icons.directions_car),
                           SizedBox(width: 8),
-                          Text('Type: ${unitDetail.unitType}'),
+                          Text('Type: ${unitDetail.unitTypeId}'),
                         ],
                       ),
                       SizedBox(height: 8),

@@ -7,7 +7,7 @@ abstract class SpecificDetailsEntity extends Equatable {}
 class UnitDetailEntity extends Equatable {
   final int unitId;
   final int ownerId;
-  final String unitType;
+  final int unitTypeId;
   final String name;
   final String description;
   final double dailyRate;
@@ -17,14 +17,13 @@ class UnitDetailEntity extends Equatable {
   final String? thumbnailImageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
-
   final SpecificDetailsEntity? specificDetails;
   final List<UnitImageEntity> images;
 
   const UnitDetailEntity({
     required this.unitId,
     required this.ownerId,
-    required this.unitType,
+    required this.unitTypeId,
     required this.name,
     required this.description,
     required this.dailyRate,
@@ -42,7 +41,7 @@ class UnitDetailEntity extends Equatable {
   List<Object?> get props => [
     unitId,
     ownerId,
-    unitType,
+    unitTypeId,
     name,
     description,
     dailyRate,

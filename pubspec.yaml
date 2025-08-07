@@ -87,6 +87,7 @@ flutter:
       - assets/icons/seat.png
       - assets/icons/transmission.png
       - assets/icons/auto.png
+      - assets/icons/motorcycle.png
       - assets/icons/plate.png
       - assets/icons/engine.png
       - assets/lottie/success.json

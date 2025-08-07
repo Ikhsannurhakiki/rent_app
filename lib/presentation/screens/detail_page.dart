@@ -16,9 +16,9 @@ import '../widgets/subHeading.dart';
 
 class UnitDetailPage extends StatefulWidget {
   final int id;
-  final String type;
+  final int typeId;
 
-  UnitDetailPage({required this.id, required this.type});
+  UnitDetailPage({required this.id, required this.typeId});
 
   @override
   _UnitDetailPageState createState() => _UnitDetailPageState();
@@ -238,14 +238,88 @@ class _DetailContentState extends State<DetailContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Type: motorcycle'),
-        Text('Merek: ${motorcycle.make}'),
-        Text('Model: ${motorcycle.model}'),
-        Text('Tahun: ${motorcycle.year}'),
-        Text('Mesin (CC): ${motorcycle.engineCc}'),
-        Text('Transmisi: ${motorcycle.transmission}'),
-        Text('Plat Nomor: ${motorcycle.licensePlate}'),
-        Text('Warna: ${motorcycle.color}'),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Collapsed view
+              if (_showCollapsed)
+                AnimatedOpacity(
+                  opacity: isExpanded ? 0.0 : 1.0,
+                  duration: const Duration(milliseconds: 500),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildIconColumn(
+                        'assets/icons/motorcycle.png',
+                        "${motorcycle.make} ${motorcycle.model} ${motorcycle.year}",
+                        context,
+                      ),
+                      _buildIconColumn(
+                        'assets/icons/engine.png',
+                        "${motorcycle.engineCc} CC",
+                        context,
+                      ),
+                    ],
+                  ),
+                ),
+
+              // Expanded view
+              if (_showExpanded)
+                AnimatedOpacity(
+                  opacity: isExpanded ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 500),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildIconColumn(
+                            'assets/icons/motorcycle.png',
+                            "${motorcycle.make} ${motorcycle.model} ${motorcycle.year}",
+                            context,
+                          ),
+                          _buildIconColumn(
+                            'assets/icons/engine.png',
+                            "${motorcycle.engineCc} CC",
+                            context,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildIconColumn(
+                            'assets/icons/plate.png',
+                            motorcycle.licensePlate,
+                            context,
+                          ),
+                          _buildIconColumn(
+                            'assets/icons/transmission.png',
+                            "${motorcycle.transmission}",
+                            context,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildIconColumn(
+                            'assets/icons/ink.png',
+                            motorcycle.color,
+                            context,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -306,7 +380,7 @@ class _DetailContentState extends State<DetailContent> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
           child: SubHeading(
-            title: 'Recommended for you',
+            title: 'Specification:',
             icon: isExpanded ? Icons.expand_more : Icons.expand_less,
             onTap: _toggleExpand,
           ),
@@ -673,8 +747,8 @@ class _DetailContentState extends State<DetailContent> {
                                                         builder: (_) =>
                                                             UnitDetailPage(
                                                               id: item.id,
-                                                              type:
-                                                                  item.unitType,
+                                                              typeId:
+                                                                  item.unitTypeId,
                                                             ),
                                                       ),
                                                     );

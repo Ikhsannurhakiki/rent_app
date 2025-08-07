@@ -5,7 +5,7 @@ import '../entities/Unit.dart';
 class UnitModel extends Equatable {
   final int id;
   final int ownerId;
-  final String unitType;
+  final int unitTypeId;
   final String name;
   final String description;
   final double dailyRate;
@@ -18,7 +18,7 @@ class UnitModel extends Equatable {
   const UnitModel({
     required this.id,
     required this.ownerId,
-    required this.unitType,
+    required this.unitTypeId,
     required this.name,
     required this.description,
     required this.dailyRate,
@@ -31,9 +31,9 @@ class UnitModel extends Equatable {
 
   factory UnitModel.fromJson(Map<String, dynamic> json) {
     return UnitModel(
-      id: int.parse(json['unit_id']),
-      ownerId: int.parse(json['owner_id']),
-      unitType: json['unit_type'],
+      id: json['unit_id'] as int,
+      ownerId: json['owner_id'] as int,
+      unitTypeId: json['unit_type_id'] as int,
       name: json['name'],
       description: json['description'],
       dailyRate: double.parse(json['daily_rate']),
@@ -51,7 +51,7 @@ class UnitModel extends Equatable {
     return {
       'unit_id': id.toString(),
       'owner_id': ownerId.toString(),
-      'unit_type': unitType,
+      'unit_type': unitTypeId,
       'name': name,
       'description': description,
       'daily_rate': dailyRate.toString(),
@@ -68,7 +68,7 @@ class UnitModel extends Equatable {
     return Unit(
       id: id,
       ownerId: ownerId,
-      unitType: unitType,
+      unitTypeId: unitTypeId,
       name: name,
       description: description,
       dailyRate: dailyRate,
@@ -84,7 +84,7 @@ class UnitModel extends Equatable {
   List<Object?> get props => [
     id,
     ownerId,
-    unitType,
+    unitTypeId,
     name,
     description,
     dailyRate,

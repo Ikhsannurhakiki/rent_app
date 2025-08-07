@@ -25,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     Future.microtask(() {
       Provider.of<UnitNotifier>(context, listen: false)
-        ..fetchRecommendations()
-          ..fetchUnitTypes();
+        ..fetchRecommendations();
+          // ..fetchUnitTypes();
     });
   }
 
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 MaterialPageRoute(
                                   builder: (_) => UnitDetailPage(
                                     id: item.id,
-                                    type: item.unitType,
+                                    typeId: item.unitTypeId,
                                   ),
                                 ),
                               );
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 MaterialPageRoute(
                                   builder: (_) => UnitDetailPage(
                                     id: item.id,
-                                    type: item.unitType,
+                                    typeId: item.unitTypeId,
                                   ),
                                 ),
                               );
@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 MaterialPageRoute(
                                   builder: (_) => UnitDetailPage(
                                     id: item.id,
-                                    type: item.unitType,
+                                    typeId: item.unitTypeId,
                                   ),
                                 ),
                               );

@@ -6,7 +6,7 @@ import 'package:rent_app/data/models/specific_detail_entity.dart';
 class UnitDetailModel extends Equatable {
   final int unitId;
   final int ownerId;
-  final String unitType;
+  final int unitTypeId;
   final String name;
   final String description;
   final double dailyRate;
@@ -23,7 +23,7 @@ class UnitDetailModel extends Equatable {
   const UnitDetailModel({
     required this.unitId,
     required this.ownerId,
-    required this.unitType,
+    required this.unitTypeId,
     required this.name,
     required this.description,
     required this.dailyRate,
@@ -39,16 +39,17 @@ class UnitDetailModel extends Equatable {
 
   factory UnitDetailModel.fromJson(Map<String, dynamic> json) {
     SpecificDetails? parsedSpecificDetails;
-    if (json['specific_details'] != null && json['unit_type'] != null) {
+
+    if (json['specific_details'] != null && json['unit_type_id'] != null) {
       final Map<String, dynamic> detailJson = json['specific_details'];
-      switch (json['unit_type']) {
-        case 'car':
+      switch (int.parse(json['unit_type_id'])) {
+        case 1:
           parsedSpecificDetails = CarDetailModel.fromJson(detailJson);
           break;
-        case 'motorcycle':
+        case 2:
           parsedSpecificDetails = MotorcycleDetailModel.fromJson(detailJson);
           break;
-        case 'house':
+        case 3:
           parsedSpecificDetails = HouseDetailModel.fromJson(detailJson);
           break;
         default:
@@ -59,7 +60,7 @@ class UnitDetailModel extends Equatable {
     return UnitDetailModel(
       unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
       ownerId: int.tryParse(json['owner_id']?.toString() ?? '') ?? 0,
-      unitType: json['unit_type'] as String,
+      unitTypeId: int.tryParse(json['unit_type_id']?.toString() ?? '') ?? 0,
       name: json['name'] as String,
       description: json['description'] as String,
       dailyRate: double.tryParse(json['daily_rate']?.toString() ?? '') ?? 0.0,
@@ -80,7 +81,7 @@ class UnitDetailModel extends Equatable {
     Map<String, dynamic> json = {
       'unit_id': unitId,
       'owner_id': ownerId,
-      'unit_type': unitType,
+      'unit_type_id': unitTypeId,
       'name': name,
       'description': description,
       'daily_rate': dailyRate,
@@ -114,7 +115,7 @@ class UnitDetailModel extends Equatable {
   List<Object?> get props => [
     unitId,
     ownerId,
-    unitType,
+    unitTypeId,
     name,
     description,
     dailyRate,
@@ -133,6 +134,7 @@ class UnitDetailModel extends Equatable {
   // ======================================
   UnitDetailEntity toEntity() {
     SpecificDetailsEntity? entitySpecificDetails;
+    print(specificDetails);
     if (specificDetails != null) {
       if (specificDetails is CarDetailModel) {
         entitySpecificDetails = (specificDetails as CarDetailModel).toEntity();
@@ -148,7 +150,7 @@ class UnitDetailModel extends Equatable {
     return UnitDetailEntity(
       unitId: unitId,
       ownerId: ownerId,
-      unitType: unitType,
+      unitTypeId: unitTypeId,
       name: name,
       description: description,
       dailyRate: dailyRate,

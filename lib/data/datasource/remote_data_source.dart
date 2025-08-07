@@ -46,13 +46,14 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<UnitModel>> getUnit() async {
     final response = await client.get(
-      Uri.parse('https://rentapp.cyou/units.php'),
+      Uri.parse('https://rentapp.cyou/units.php/units'),
     );
 
     if (response.statusCode == 200) {
       final jsonBody = json.decode(response.body);
       if (jsonBody['status'] == 'success') {
         final List data = jsonBody['data'];
+        print(data);
         return data.map((json) => UnitModel.fromJson(json)).toList();
       } else {
         throw ServerException(jsonBody['message'] ?? 'Unknown server error');
@@ -72,6 +73,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     if (response.statusCode == 200) {
       final jsonBody = json.decode(response.body);
       if (jsonBody['status'] == 'success') {
+        print(response.body);
         return UnitDetailResponse.fromJson(json.decode(response.body)).detail;
       } else {
         throw ServerException(jsonBody['message'] ?? 'Unknown server error');
