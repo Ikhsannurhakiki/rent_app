@@ -12,6 +12,10 @@ class MapProvider extends ChangeNotifier {
   Placemark? _placemarkCurrent;
   Placemark? get placemarkCurrent => _placemarkCurrent;
   LatLng? _latLng;
+  LatLng? _latLngPickUp;
+  LatLng? _latLngReturn;
+  LatLng? get latLngPickUp => _latLngPickUp;
+  LatLng? get latLngReturn => _latLngReturn;
   LatLng? get latLng => _latLng;
 
   void setIsMapPicker(bool isMapPicker) {
@@ -56,23 +60,23 @@ class MapProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLatLngPickUp(LatLng latLng) {
-    _latLng = latLng;
+  void setLatLngPickUp(LatLng latLngPickUp) {
+    _latLngPickUp = latLngPickUp;
     notifyListeners();
   }
 
   void resetLatLngPickUp() {
-    _latLng = const LatLng(0, 0);
+    _latLngPickUp = const LatLng(0, 0);
     notifyListeners();
   }
 
-  void setLatLngReturn(LatLng latLng) {
-    _latLng = latLng;
+  void setLatLngReturn(LatLng latLngReturn) {
+    _latLngReturn = latLngReturn;
     notifyListeners();
   }
 
   void resetLatLngReturn() {
-    _latLng = const LatLng(0, 0);
+    _latLngReturn = const LatLng(0, 0);
     notifyListeners();
   }
 

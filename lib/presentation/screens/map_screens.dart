@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 import 'package:geocoding/geocoding.dart' hide Location;
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:geocoding/geocoding.dart' as geo;
 import 'package:provider/provider.dart';
-import 'package:rent_app/presentation/screens/booking_screen.dart';
 
 import '../provider/map_provider.dart';
-import '../style/colors/app_colors.dart';
 
 class MapScreen extends StatefulWidget {
   final bool isPick;
@@ -54,58 +51,78 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _initLocation() async {
-    final dataProvider = context.read<MapProvider>();
-    LatLng? latLng = dataProvider.latLng;
-    Placemark? placemark = dataProvider.placemarkCurrent;
+    final mapProvider = context.read<MapProvider>();
 
-    if (latLng == null) {
+    // 1️⃣ Check if pickup or return already set
+    bool hasPickup = mapProvider.latLngPickUp != null;
+    bool hasReturn = mapProvider.latLngReturn != null;
+
+    LatLng? latLng;
+    Placemark? placemark;
+
+    if (widget.isPick && hasPickup) {
+      latLng = mapProvider.latLngPickUp;
+      placemark = mapProvider.placemarkPickUp;
+    } else if (!widget.isPick && hasReturn) {
+      latLng = mapProvider.latLngReturn;
+      placemark = mapProvider.placemarkReturn;
+    } else {
+      // 2️⃣ Both are null → use current location
       bool serviceEnabled = await _locationService.serviceEnabled();
       if (!serviceEnabled) {
         serviceEnabled = await _locationService.requestService();
         if (!serviceEnabled) return;
       }
 
-      PermissionStatus permissionGranted = await _locationService
-          .hasPermission();
+      PermissionStatus permissionGranted = await _locationService.hasPermission();
       if (permissionGranted == PermissionStatus.denied) {
         permissionGranted = await _locationService.requestPermission();
         if (permissionGranted != PermissionStatus.granted) return;
       }
 
       final locationData = await _locationService.getLocation();
-      if (locationData.latitude == null || locationData.longitude == null)
-        return;
+      if (locationData.latitude == null || locationData.longitude == null) return;
 
       latLng = LatLng(locationData.latitude!, locationData.longitude!);
 
-      final placemarks = await placemarkFromCoordinates(
-        latLng.latitude,
-        latLng.longitude,
-      );
+      final placemarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
       if (placemarks.isNotEmpty) {
         placemark = placemarks.first;
-        widget.isPick ?
-        dataProvider.setPlacemarkPickUp(placemark): dataProvider.setPlacemarkReturn(placemark);
-      }
 
-      dataProvider.setLatLngPickUp(latLng);
+        if (widget.isPick) {
+          mapProvider.setLatLngPickUp(latLng);
+          mapProvider.setPlacemarkPickUp(placemark);
+        } else {
+          mapProvider.setLatLngReturn(latLng);
+          mapProvider.setPlacemarkReturn(placemark);
+        }
+      }
     }
 
-    setState(() {
-      _currentLatLng = latLng!;
-      _placemark = placemark;
+    // 3️⃣ Update marker & map
+    if (latLng != null) {
+      setState(() {
+        _currentLatLng = latLng;
+        _placemark = placemark;
 
-      _markers = {
-        Marker(
-          markerId: const MarkerId("current_location"),
-          position: latLng,
-          infoWindow: InfoWindow(title: placemark?.street ?? "Picked Location"),
-        ),
-      };
-    });
+        _markers = {
+          Marker(
+            markerId: MarkerId(widget.isPick ? "pickup_location" : "return_location"),
+            position: latLng!,
+            infoWindow: InfoWindow(
+              title: placemark?.street ??
+                  (widget.isPick ? "Pickup Location" : "Return Location"),
+            ),
+          ),
+        };
+      });
 
-    _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(latLng, 16),
+      );
+    }
   }
+
 
   Future<void> _onTapMap(LatLng latLng) async {
     try {
@@ -320,12 +337,7 @@ class _MapScreenState extends State<MapScreen> {
                                                   _placemark!,
                                                 ),
                                               };
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => BookingScreen(),
-                                          ),
-                                        );
+                                        Navigator.pop(context);
                                       } else {
                                         ScaffoldMessenger.of(
                                           context,

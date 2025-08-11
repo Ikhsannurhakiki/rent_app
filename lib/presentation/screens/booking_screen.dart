@@ -668,7 +668,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       title: 'Payment Method:',
                       icon: Icons.expand_more,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => DateRangePickerScreen()));
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => DateRangePickerScreen()));
                       },
                     ),
                     ListTile(

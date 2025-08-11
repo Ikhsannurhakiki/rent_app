@@ -14,6 +14,8 @@ class DateRangePickerScreen extends StatefulWidget {
 class _DateRangePickerScreenState extends State<DateRangePickerScreen> {
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
 
   // Contoh tanggal yang sudah dibooking
   final List<DateTime> bookedDates = [
@@ -36,12 +38,21 @@ class _DateRangePickerScreenState extends State<DateRangePickerScreen> {
         children: [
           TableCalendar(
             firstDay: DateTime.now(),
-            lastDay: DateTime.utc(2030, 12, 31),
-            focusedDay: DateTime.now(),
+            lastDay: DateTime(
+              DateTime.now().year + 1,
+              DateTime.now().month,
+              DateTime.now().day,
+            ),
+            focusedDay: _focusedDay,
             rangeStartDay: _rangeStart,
             rangeEndDay: _rangeEnd,
+            onDaySelected: (selectedDay, focusedDay) {
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay; // 🔹 keep the new month/year
+              });
+            },
             onRangeSelected: (start, end, focusedDay) {
-              // Cek apakah ada tanggal yang dibooking di dalam rentang
               if (start != null && end != null) {
                 bool conflict = false;
                 DateTime current = start;
@@ -53,6 +64,9 @@ class _DateRangePickerScreenState extends State<DateRangePickerScreen> {
                   current = current.add(const Duration(days: 1));
                 }
                 if (conflict) {
+                  setState(() {
+                    _focusedDay = focusedDay; // 🔹 still keep month even if conflict
+                  });
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Rentang tanggal berisi tanggal yang sudah dibooking!'),
@@ -66,8 +80,10 @@ class _DateRangePickerScreenState extends State<DateRangePickerScreen> {
               setState(() {
                 _rangeStart = start;
                 _rangeEnd = end;
+                _focusedDay = focusedDay; // 🔹 this prevents jump back
               });
             },
+
             rangeSelectionMode: RangeSelectionMode.toggledOn,
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, day, focusedDay) {
