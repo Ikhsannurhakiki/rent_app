@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/data/entities/Unit.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
+import 'package:rent_app/presentation/screens/booking_screen.dart';
 import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
 import '../../common/constants.dart';
@@ -589,7 +590,7 @@ class _DetailContentState extends State<DetailContent> {
                                                     "available"
                                                 ? Colors.green
                                                 : Colors.red,
-                                            fontWeight: FontWeight.bold
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ],
@@ -747,8 +748,8 @@ class _DetailContentState extends State<DetailContent> {
                                                         builder: (_) =>
                                                             UnitDetailPage(
                                                               id: item.id,
-                                                              typeId:
-                                                                  item.unitTypeId,
+                                                              typeId: item
+                                                                  .unitTypeId,
                                                             ),
                                                       ),
                                                     );
@@ -815,12 +816,12 @@ class _DetailContentState extends State<DetailContent> {
                               onPressed:
                                   widget.unit.availabilityStatus == "available"
                                   ? () {
-                                      final bookedDateTime = showRentTimeDialog(
+                                      Navigator.push(
                                         context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BookingScreen(),
+                                        ),
                                       );
-                                      if (bookedDateTime != null) {
-                                        print("Booked for: $bookedDateTime");
-                                      }
                                     }
                                   : null,
                               style: ElevatedButton.styleFrom(
