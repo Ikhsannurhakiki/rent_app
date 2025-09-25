@@ -43,7 +43,7 @@ class RentCard extends StatelessWidget {
                 Text(
                   "${item.currency} ${item.dailyRate.toString()}",
                   style: TextStyle(
-                    color: AppColors.darkTeal.color,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

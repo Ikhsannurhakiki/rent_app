@@ -318,6 +318,7 @@ class _MapScreenState extends State<MapScreen> {
                                       ).primaryColor,
                                     ),
                                     onPressed: () {
+                                      print(_currentLatLng);
                                       if (_currentLatLng != null &&
                                           _placemark != null) {
                                         widget.isPick

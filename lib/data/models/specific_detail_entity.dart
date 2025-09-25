@@ -1,6 +1,8 @@
 // lib/domain/entities/unit_detail_entity.dart
 import 'package:equatable/equatable.dart';
 
+import 'owner_model.dart';
+
 // Abstract class untuk detail spesifik Entity
 abstract class SpecificDetailsEntity extends Equatable {}
 
@@ -20,6 +22,16 @@ class UnitDetailEntity extends Equatable {
   final SpecificDetailsEntity? specificDetails;
   final List<UnitImageEntity> images;
 
+  final int ownerUserId;
+  final String ownerFullName;
+  final String ownerEmail;
+  final String ownerPhoneNumber;
+  final DateTime ownerRegistrationDate;
+  final double ownerLatitude;
+  final double ownerLongitude;
+  final OwnerModel? ownerDetails;
+
+
   const UnitDetailEntity({
     required this.unitId,
     required this.ownerId,
@@ -35,6 +47,14 @@ class UnitDetailEntity extends Equatable {
     required this.updatedAt,
     this.specificDetails,
     required this.images,
+    required this.ownerUserId,
+    required this.ownerFullName,
+    required this.ownerEmail,
+    required this.ownerPhoneNumber,
+    required this.ownerRegistrationDate,
+    required this.ownerLatitude,
+    required this.ownerLongitude,
+    this.ownerDetails,
   });
 
   @override
@@ -53,6 +73,11 @@ class UnitDetailEntity extends Equatable {
     updatedAt,
     specificDetails,
     images,
+    ownerUserId,
+    ownerFullName,
+    ownerEmail,
+    ownerPhoneNumber,
+    ownerRegistrationDate,
   ];
 }
 

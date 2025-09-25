@@ -11,4 +11,9 @@ abstract class Repository {
   Future<Either<Failure, List<Unit>>> getUnit();
 
   Future<Either<Failure, UnitDetailEntity>> getUnitDetail(int unitId);
+
+  Future<Either<Failure, double>> getRoadDistanceInKm(
+      double startLat, double startLng,
+      double endLat, double endLng,
+      String apiKey);
 }

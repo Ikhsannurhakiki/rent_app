@@ -2,6 +2,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:rent_app/data/models/specific_detail_entity.dart';
 
+import 'owner_model.dart';
+
 // Kelas utama untuk merepresentasikan semua data detail unit
 class UnitDetailModel extends Equatable {
   final int unitId;
@@ -16,9 +18,17 @@ class UnitDetailModel extends Equatable {
   final String? thumbnailImageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
-
   final SpecificDetails? specificDetails;
   final List<UnitImageModel> images;
+
+  final int ownerUserId;
+  final String ownerFullName;
+  final String ownerEmail;
+  final String ownerPhoneNumber;
+  final DateTime ownerRegistrationDate;
+  final double ownerLatitude;
+  final double ownerLongitude;
+  final OwnerModel? ownerDetails;
 
   const UnitDetailModel({
     required this.unitId,
@@ -35,6 +45,14 @@ class UnitDetailModel extends Equatable {
     required this.updatedAt,
     this.specificDetails,
     required this.images,
+    required this.ownerUserId,
+    required this.ownerFullName,
+    required this.ownerEmail,
+    required this.ownerPhoneNumber,
+    required this.ownerRegistrationDate,
+    required this.ownerLatitude,
+    required this.ownerLongitude,
+    this.ownerDetails,
   });
 
   factory UnitDetailModel.fromJson(Map<String, dynamic> json) {
@@ -57,6 +75,11 @@ class UnitDetailModel extends Equatable {
       }
     }
 
+    OwnerModel? parsedOwnerDetails;
+    if (json['owner_details'] != null) {
+      parsedOwnerDetails = OwnerModel.fromJson(json['owner_details']);
+    }
+
     return UnitDetailModel(
       unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
       ownerId: int.tryParse(json['owner_id']?.toString() ?? '') ?? 0,
@@ -74,6 +97,14 @@ class UnitDetailModel extends Equatable {
       images: (json['images'] as List<dynamic>)
           .map((e) => UnitImageModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ownerUserId: int.tryParse(json['owner_user_id']?.toString() ?? '') ?? 0,
+      ownerFullName: json['owner_full_name'] as String,
+      ownerEmail: json['owner_email'] as String,
+      ownerPhoneNumber: json['owner_phone_number'] as String,
+      ownerRegistrationDate: DateTime.parse(json['owner_registration_date'] as String),
+      ownerLatitude: double.tryParse(json['owner_latitude']?.toString() ?? '') ?? 0.0,
+      ownerLongitude: double.tryParse(json['owner_longitude']?.toString() ?? '') ?? 0.0,
+      ownerDetails: parsedOwnerDetails,
     );
   }
 
@@ -92,20 +123,29 @@ class UnitDetailModel extends Equatable {
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'images': images.map((image) => image.toJson()).toList(),
+      'owner_user_id': ownerUserId,
+      'owner_full_name': ownerFullName,
+      'owner_email': ownerEmail,
+      'owner_phone_number': ownerPhoneNumber,
+      'owner_registration_date': ownerRegistrationDate.toIso8601String(),
+      'owner_latitude': ownerLatitude,
+      'owner_longitude': ownerLongitude,
     };
 
     if (specificDetails != null) {
       if (specificDetails is CarDetailModel) {
         json['specific_details'] = (specificDetails as CarDetailModel).toJson();
       } else if (specificDetails is MotorcycleDetailModel) {
-        json['specific_details'] = (specificDetails as MotorcycleDetailModel)
-            .toJson();
+        json['specific_details'] = (specificDetails as MotorcycleDetailModel).toJson();
       } else if (specificDetails is HouseDetailModel) {
-        json['specific_details'] = (specificDetails as HouseDetailModel)
-            .toJson();
+        json['specific_details'] = (specificDetails as HouseDetailModel).toJson();
       }
     } else {
       json['specific_details'] = {};
+    }
+
+    if (ownerDetails != null) {
+      json['owner_details'] = ownerDetails!.toJson();
     }
 
     return json;
@@ -127,6 +167,14 @@ class UnitDetailModel extends Equatable {
     updatedAt,
     specificDetails,
     images,
+    ownerUserId,
+    ownerFullName,
+    ownerEmail,
+    ownerPhoneNumber,
+    ownerRegistrationDate,
+    ownerLatitude,
+    ownerLongitude,
+    ownerDetails,
   ];
 
   // ======================================
@@ -162,6 +210,14 @@ class UnitDetailModel extends Equatable {
       updatedAt: updatedAt,
       specificDetails: entitySpecificDetails,
       images: images.map((imageModel) => imageModel.toEntity()).toList(),
+      ownerUserId: ownerUserId,
+      ownerFullName: ownerFullName,
+      ownerEmail: ownerEmail,
+      ownerPhoneNumber: ownerPhoneNumber,
+      ownerRegistrationDate: ownerRegistrationDate,
+      ownerLatitude: ownerLatitude,
+      ownerLongitude: ownerLongitude,
+      ownerDetails: ownerDetails,
     );
   }
 }

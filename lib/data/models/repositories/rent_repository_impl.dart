@@ -52,4 +52,16 @@ class RentRepositoryImpl implements Repository {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+
+  @override
+  Future<Either<Failure, double>> getRoadDistanceInKm(double startLat, double startLng, double endLat, double endLng, String apiKey) async {
+    try {
+      final result = await remoteDataSource.getRoadDistanceInKm(startLat, startLng, endLat, endLng, apiKey);
+      return Right(result);
+    } on ServerException {
+      return Left(ServerFailure("hihihih"));
+    } on SocketException {
+      return Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }

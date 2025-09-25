@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rent_app/presentation/provider/book_notifier.dart';
 import 'package:rent_app/presentation/provider/main_provider.dart';
 import 'package:rent_app/presentation/provider/map_provider.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MainProvider()),
         ChangeNotifierProvider.value(value: di.locator<UnitNotifier>()),
         ChangeNotifierProvider.value(value: di.locator<MapProvider>()),
+        ChangeNotifierProvider.value(value: di.locator<BookNotifier>()),
       ],
       child: MaterialApp(
         theme: ThemeData(

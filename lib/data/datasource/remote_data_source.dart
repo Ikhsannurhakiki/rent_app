@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:rent_app/data/models/unit_detail_model.dart';
 import 'package:rent_app/data/models/unit_model.dart';
 
@@ -14,6 +16,14 @@ abstract class RemoteDataSource {
   Future<List<UnitModel>> getUnit();
 
   Future<UnitDetailModel> getUnitDetail(int unitId);
+
+  Future<double> getRoadDistanceInKm(
+    double startLat,
+    double startLng,
+    double endLat,
+    double endLng,
+    String apiKey,
+  );
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -80,6 +90,46 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       }
     } else {
       final error = json.decode(response.body);
+      throw ServerException(error['message'] ?? 'Something went wrong');
+    }
+  }
+
+  @override
+  Future<double> getRoadDistanceInKm(
+    double startLat,
+    double startLng,
+    double endLat,
+    double endLng,
+    String apiKey,
+  ) async {
+    final url = Uri.parse(
+      'https://api.openrouteservice.org/v2/directions/driving-car?api_key=$apiKey&start=$startLng,$startLat&end=$endLng,$endLat&radiuses=2000',
+    );
+
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      if (data['features'] != null && data['features'].isNotEmpty) {
+        final features = data['features'] as List;
+        final firstFeature = features.first as Map<String, dynamic>;
+
+        // Mengakses jarak dari objek 'summary' di dalam 'properties'
+        final properties = firstFeature['properties'] as Map<String, dynamic>;
+        final summary = properties['summary'] as Map<String, dynamic>;
+        final meters = summary['distance'] as double;
+        final kilometers = meters / 1000;
+
+        // Mengonversi double ke string dengan 2 digit di belakang koma, lalu di parse kembali
+        final formattedString = kilometers.toStringAsFixed(2);
+        final formattedDouble = double.parse(formattedString);
+
+        return formattedDouble;
+      } else {
+        throw ServerException('No route found');
+      }
+    } else {
+      final error = jsonDecode(response.body);
       throw ServerException(error['message'] ?? 'Something went wrong');
     }
   }

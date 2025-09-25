@@ -74,7 +74,7 @@ class UnitNotifier extends ChangeNotifier {
         print(failure);
         _message = failure.message;
         _recommendationUnitsState = RequestState.Error;
-        notifyListeners(); // Tambahkan ini agar UI bisa update saat error
+        notifyListeners();
       },
       (unit) {
         _recommendationUnitsState = RequestState.Loaded;

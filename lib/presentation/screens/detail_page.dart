@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:rent_app/data/entities/Unit.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
 import 'package:rent_app/presentation/screens/booking_screen.dart';
-import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
 import '../../common/constants.dart';
 import '../../common/state_enum.dart';
@@ -30,7 +26,6 @@ class _UnitDetailPageState extends State<UnitDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      print(widget.id);
       Provider.of<UnitNotifier>(context, listen: false).fetchDetail(widget.id);
     });
   }
@@ -819,7 +814,7 @@ class _DetailContentState extends State<DetailContent> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => BookingScreen(),
+                                          builder: (context) => BookingScreen(id: widget.unit.unitId, typeId: widget.unit.unitTypeId),
                                         ),
                                       );
                                     }

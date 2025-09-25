@@ -54,7 +54,7 @@ class AppTheme {
 
   static ColorScheme get appDarkColorScheme => ColorScheme(
     brightness: Brightness.dark,
-    primary:  Color(0xFF000000),
+    primary:  Color(0xFF1955F4),
     onPrimary: Color(0xFF000000),
     secondary: Color(0xFFE0E0E0),
     onSecondary: Color(0xFF000000),
