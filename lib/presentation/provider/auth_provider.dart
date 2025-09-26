@@ -1,108 +1,94 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/entities/User.dart';
-import '../../data/models/repositories/auth_repository.dart';
+import '../../data/usecase/auth/firebase/get_current_user.dart';
+import '../../data/usecase/auth/firebase/login_user.dart';
+import '../../data/usecase/auth/firebase/logout_user.dart';
+import '../../data/usecase/auth/firebase/register_user.dart';
+
+enum AuthStatus { initial, loading, authenticated, unauthenticated, error }
 
 class AuthProvider extends ChangeNotifier {
-  final AuthRepository authRepository;
-  User? _user;
-  AuthProvider(this.authRepository);
+  final RegisterUser registerUser;
+  final LoginUser loginUser;
+  final LogoutUser logoutUser;
+  final GetCurrentUser getCurrentUser;
 
-  bool isLoadingLogin = false;
-  bool isLoadingLogout = false;
-  bool isLoadingRegister = false;
-  bool _isInitialized = false;
-  bool _isInitializing = false;
-  bool get isInitialized => _isInitialized;
+  String? message;
+  User? currentUser;
+  AuthStatus status = AuthStatus.initial;
+  String? errorMessage;
+
+
+  bool isInitialized = false;
   bool isLoggedIn = false;
-  User? get user => _user;
-  String _message = "";
-  String get message => _message;
 
-  Future<bool> init() async {
-    if (_isInitialized || _isInitializing) return isLoggedIn;
-
-    _isInitializing = true;
-    isLoggedIn = await authRepository.isLoggedIn();
-    _isInitialized = true;
-    _isInitializing = false;
-
-    notifyListeners();
-    return isLoggedIn;
+  AuthProvider({
+    required this.registerUser,
+    required this.loginUser,
+    required this.logoutUser,
+    required this.getCurrentUser,
+  }) {
+    loadUser();
   }
 
-  Future<bool> login(String email, String password) async {
-    isLoadingLogin = true;
-    notifyListeners();
 
+  Future<void> register(String name, String email, String password) async {
+    _setLoading();
     try {
-      _user = await authRepository.login(email, password);
-      if (_user != null) {
-        isLoggedIn = await authRepository.isLoggedIn();
-        _message = "Login successful!";
-      } else {
-        _message = "Login failed. Please try again.";
-      }
+      final userCredential = await registerUser(email, password);
+      currentUser = userCredential.user;
+      status = AuthStatus.authenticated;
     } catch (e) {
-      _message = e.toString();
-      isLoggedIn = false;
+      errorMessage = e.toString();
+      status = AuthStatus.error;
     }
-
-    isLoadingLogin = false;
     notifyListeners();
-    return isLoggedIn;
   }
 
-  Future<bool> logout() async {
-    isLoadingLogout = true;
-    notifyListeners();
-
+  Future<void> login(String email, String password) async {
+    _setLoading();
     try {
-      final logoutSuccess = await authRepository.logout();
-      if (logoutSuccess) {
-        await authRepository.deleteUser();
-        _message = "Logout successful.";
-      } else {
-        _message = "Logout failed. Please try again.";
-      }
-
-      isLoggedIn = await authRepository.isLoggedIn();
+      final userCredential = await loginUser(email, password);
+      currentUser = userCredential.user;
+      status = AuthStatus.authenticated;
     } catch (e) {
-      _message = "An error occurred during logout: ${e.toString()}";
-      isLoggedIn = false;
+      errorMessage = e.toString();
+      status = AuthStatus.error;
     }
-
-    isLoadingLogout = false;
     notifyListeners();
-    return isLoggedIn;
   }
 
-  Future<bool> register(String username, String email, String password) async {
-    isLoadingRegister = true;
-    notifyListeners();
-
+  Future<void> logout() async {
+    _setLoading();
     try {
-      final userState = await authRepository.register(
-        username,
-        email,
-        password,
-      );
-      _message = userState.message;
-
-      return !userState.error;
+      await logoutUser();
+      currentUser = null;
+      status = AuthStatus.unauthenticated;
     } catch (e) {
-      _message = "An error occurred: ${e.toString()}";
-      return false;
-    } finally {
-      isLoadingRegister = false;
-      notifyListeners();
+      errorMessage = e.toString();
+      status = AuthStatus.error;
     }
+    notifyListeners();
   }
 
-  Future<void> getUser() async {
-    isLoadingRegister = true;
-    _user = await authRepository.getUser();
-    isLoadingRegister = false;
+  Future<void> loadUser() async {
+    _setLoading();
+    try {
+      currentUser = await getCurrentUser();
+      status = currentUser != null
+          ? AuthStatus.authenticated
+          : AuthStatus.unauthenticated;
+    } catch (e) {
+      status = AuthStatus.error;
+    }
+    isInitialized = true;
+    notifyListeners();
+  }
+
+  void _setLoading() {
+    status = AuthStatus.loading;
+    errorMessage = null;
     notifyListeners();
   }
 }

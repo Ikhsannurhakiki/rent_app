@@ -53,6 +53,8 @@ dependencies:
   lottie: ^3.3.1
   intl: ^0.20.2
   table_calendar: ^3.2.0
+  firebase_auth: ^6.1.0
+  firebase_core: ^4.1.1
 
 
 dev_dependencies:
@@ -94,8 +96,7 @@ flutter:
       - assets/icons/engine.png
       - assets/lottie/success.json
       - assets/lottie/failed.json
-  #   - images/a_dot_ham.jpeg
-
+      - assets/img/regist.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

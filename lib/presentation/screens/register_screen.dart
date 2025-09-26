@@ -6,7 +6,6 @@ import '../provider/auth_provider.dart';
 import '../style/colors/app_colors.dart';
 import '../style/typography/app_text_styles.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -59,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset("assets/images/register.jpg"),
+              Image.asset("assets/img/regist.png"),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -68,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Create Your Chapter!",
+                      "Rent what you need!",
                       style: AppTextStyles.headlineLarge,
                     ),
                     SizedBox(height: 25),
@@ -95,17 +94,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          focusedBorder: const OutlineInputBorder(
+                          focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             borderSide: BorderSide(
-                              color: Colors.orange,
+                              color: AppColors.darkTeal.color,
                               width: 4,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             borderSide: BorderSide(
-                              color: AppColors.lightTeal.color,
+                              color: AppColors.blue.color,
                               width: 3,
                             ),
                           ),
@@ -140,17 +139,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(
-                            color: Colors.orange,
+                            color: AppColors.navyBlue.color,
                             width: 4,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(
-                            color: AppColors.lightTeal.color,
+                            color: AppColors.blue.color,
                             width: 3,
                           ),
                         ),
@@ -188,12 +187,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Radius.circular(10),
                               ),
                             ),
-                            focusedBorder: const OutlineInputBorder(
+                            focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
                               borderSide: BorderSide(
-                                color: Colors.orange,
+                                color: AppColors.darkTeal.color,
                                 width: 4,
                               ),
                             ),
@@ -202,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Radius.circular(10),
                               ),
                               borderSide: BorderSide(
-                                color: AppColors.lightTeal.color,
+                                color: AppColors.blue.color,
                                 width: 3,
                               ),
                             ),
@@ -239,7 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _passwordFieldKey.currentState!.validate()) {
                           register();
                           scaffoldMessengerState.showSnackBar(
-                            SnackBar(content: Text(authWatch.message)),
+                            SnackBar(content: Text(authWatch.errorMessage.toString())),
                           );
                           context.go('/login');
                         }
@@ -247,7 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: ElevatedButton.styleFrom(
                         shadowColor: Colors.black,
                         elevation: 7,
-                        backgroundColor: AppColors.lightTeal.color,
+                        backgroundColor: AppColors.blue.color,
                         foregroundColor: Colors.black,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 32,
@@ -257,7 +256,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: authWatch.isLoadingRegister
+                      child: authWatch.status == AuthStatus.loading
                           ? SizedBox(
                               width: 24,
                               height: 24,
@@ -265,10 +264,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: Colors.white,
                               ),
                             )
-                          : Text(
-                              'Jump In',
-                              style: AppTextStyles.titleMedium,
-                            ),
+                          : Text('Jump In', style: AppTextStyles.titleMedium),
                     ),
                     TextButton(
                       onPressed: () => context.go('/login'),

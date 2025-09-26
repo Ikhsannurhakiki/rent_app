@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rent_app/presentation/screens/chat_list_screen.dart';
 
 import '../provider/main_provider.dart';
-import '../style/colors/app_colors.dart';
 import 'activity_screen.dart';
-import 'chat_screen.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 

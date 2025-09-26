@@ -7,10 +7,10 @@ import 'package:rent_app/data/models/unit_detail_model.dart';
 
 import 'package:rent_app/data/repositories/repository.dart';
 
-import '../../../common/exception.dart';
-import '../../../common/failure.dart';
-import '../../datasource/remote_data_source.dart';
-import '../../entities/Unit.dart';
+import '../../common/exception.dart';
+import '../../common/failure.dart';
+import '../datasource/remote_data_source.dart';
+import '../entities/Unit.dart';
 
 class RentRepositoryImpl implements Repository {
   final RemoteDataSource remoteDataSource;

@@ -5,12 +5,9 @@ import 'package:rent_app/presentation/widgets/on_going_card.dart';
 import 'package:rent_app/presentation/widgets/subHeading.dart';
 
 import '../../common/state_enum.dart';
-import '../../data/dummyItems.dart';
 import '../provider/unit_notifier.dart';
-import '../style/colors/app_colors.dart';
 import '../widgets/rent_banner.dart';
 import '../widgets/rent_item_card.dart';
-import 'detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
