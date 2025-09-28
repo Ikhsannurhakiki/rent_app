@@ -56,7 +56,6 @@ class _OnGoingCardState extends State<OnGoingCard> {
                   ],
                 ),
                 const SizedBox(width: 16),
-                // Main content
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +104,7 @@ class _OnGoingCardState extends State<OnGoingCard> {
                 ),
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 300),
-                  opacity: 1.0, // you can change this to 0.0 to hide
+                  opacity: 1.0,
                   curve: Curves.easeInOut,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -113,7 +112,7 @@ class _OnGoingCardState extends State<OnGoingCard> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black, // semi-transparent background
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(12),
                     ),
 

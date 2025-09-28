@@ -42,7 +42,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => di.locator<UnitNotifier>()),
         ChangeNotifierProvider(create: (_) => di.locator<MapProvider>()),
         ChangeNotifierProvider(create: (_) => di.locator<BookNotifier>()),
-        ChangeNotifierProvider.value(value: authProvider), // already created
+        ChangeNotifierProvider.value(value: authProvider),
       ],
       child: MyApp(routerService: goRouterService),
     ),

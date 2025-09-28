@@ -53,10 +53,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
   }
 
-  @override
+  static const String _apiKey = "";
+
   Future<List<UnitModel>> getUnit() async {
     final response = await client.get(
-      Uri.parse('https://rentapp.cyou/units.php/units'),
+      Uri.parse('https://rentapp.cyou/unit.php?action=getAll'),
+      headers: {
+        "x-api-key": _apiKey,
+        "Content-Type": "application/json",
+      },
     );
 
     if (response.statusCode == 200) {
@@ -77,7 +82,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<UnitDetailModel> getUnitDetail(int unitId) async {
     final response = await client.get(
-      Uri.parse('https://rentapp.cyou/getunitdetail.php?unit_id=$unitId'),
+      Uri.parse('https://rentapp.cyou/unit.php?action=getDetail&id=$unitId'),
+      headers: {
+        "x-api-key": _apiKey,
+        "Content-Type": "application/json",
+      },
     );
 
     if (response.statusCode == 200) {
@@ -114,13 +123,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         final features = data['features'] as List;
         final firstFeature = features.first as Map<String, dynamic>;
 
-        // Mengakses jarak dari objek 'summary' di dalam 'properties'
+
         final properties = firstFeature['properties'] as Map<String, dynamic>;
         final summary = properties['summary'] as Map<String, dynamic>;
         final meters = summary['distance'] as double;
         final kilometers = meters / 1000;
 
-        // Mengonversi double ke string dengan 2 digit di belakang koma, lalu di parse kembali
+
         final formattedString = kilometers.toStringAsFixed(2);
         final formattedDouble = double.parse(formattedString);
 

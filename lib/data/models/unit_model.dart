@@ -30,22 +30,26 @@ class UnitModel extends Equatable {
   });
 
   factory UnitModel.fromJson(Map<String, dynamic> json) {
+    int _toInt(dynamic value) => int.tryParse(value.toString()) ?? 0;
+    double _toDouble(dynamic value) => double.tryParse(value.toString()) ?? 0.0;
+    String _toString(dynamic value) => value?.toString() ?? '';
+
     return UnitModel(
-      id: json['unit_id'] as int,
-      ownerId: json['owner_id'] as int,
-      unitTypeId: json['unit_type_id'] as int,
-      name: json['name'],
-      description: json['description'],
-      dailyRate: double.parse(json['daily_rate']),
-      currency: json['currency'],
-      location: json['location'],
-      availabilityStatus: json['availability_status'],
-      thumbnailImageUrl: json['thumbnail_image_url'],
-      imageGallery: json['image_gallery'] != null
-          ? List<String>.from(json['image_gallery'])
-          : null,
+      id: _toInt(json['unit_id']),
+      ownerId: _toInt(json['owner_id']),
+      unitTypeId: _toInt(json['unit_type_id']),
+      name: _toString(json['name']),
+      description: _toString(json['description']),
+      dailyRate: _toDouble(json['daily_rate']),
+      currency: _toString(json['currency']),
+      location: _toString(json['location']),
+      availabilityStatus: _toString(json['availability_status']),
+      thumbnailImageUrl: json['thumbnail_image_url']!.toString(),
+      imageGallery: (json['image_gallery'] as List?)?.map((e) => e.toString()).toList(),
     );
   }
+
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -63,7 +67,6 @@ class UnitModel extends Equatable {
     };
   }
 
-  /// 🔁 Converts `UnitModel` to domain `Unit` entity
   Unit toEntity() {
     return Unit(
       id: id,

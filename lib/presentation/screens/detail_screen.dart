@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rent_app/presentation/style/colors/app_colors.dart';
 
 import '../../common/state_enum.dart';
-import '../../data/entities/Unit.dart';
-import '../../data/models/specific_detail_entity.dart';
+import '../../data/entities/specific_detail_entity.dart';
+import '../../data/entities/unit_detail_entity.dart';
+import '../../data/entities/unit_image_entity.dart';
 import '../provider/unit_notifier.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -27,7 +27,6 @@ class _DetailScreenState extends State<DetailScreen> {
     });
   }
 
-  // --- Helper functions for rendering specific details (these remain the same) ---
   Widget _buildCarDetails(CarDetailEntity car) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,20 +78,16 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  // --- NEW HELPER FUNCTION TO BUILD THE ENTIRE SPECIFIC DETAILS SECTION ---
   Widget _buildSpecificDetailsSection(
     BuildContext context,
     UnitDetailEntity unitDetail,
   ) {
-    // If specificDetails is null, don't show anything
     if (unitDetail.specificDetails == null) {
       return const SizedBox.shrink();
     }
 
-    // This variable will hold the specific widget for car, motorcycle, or house
     Widget specificDetailContent;
 
-    // Determine which specific detail widget to return
     if (unitDetail.specificDetails is CarDetailEntity) {
       specificDetailContent = _buildCarDetails(
         unitDetail.specificDetails as CarDetailEntity,
@@ -108,8 +103,6 @@ class _DetailScreenState extends State<DetailScreen> {
     } else {
       specificDetailContent = const Text('Tipe detail spesifik tidak dikenal.');
     }
-
-    // Return a Column containing the header and the specific content
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -119,7 +112,7 @@ class _DetailScreenState extends State<DetailScreen> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 8),
-        specificDetailContent, // This is the single widget determined above
+        specificDetailContent,
       ],
     );
   }
@@ -152,24 +145,16 @@ class _DetailScreenState extends State<DetailScreen> {
                     CarouselSlider(
                       options: CarouselOptions(
                         height: 200.0,
-                        // Fixed height for the carousel
                         autoPlay: true,
-                        // Images will slide automatically
                         enlargeCenterPage: true,
-                        // Make the center image slightly larger
                         viewportFraction: 1,
-                        // Show 95% of the current image, with a peek of next/prev
                         aspectRatio: 16 / 9,
-                        // Aspect ratio for images
                         autoPlayInterval: const Duration(seconds: 5),
-                        // Time between slides
                         autoPlayAnimationDuration: const Duration(
                           milliseconds: 800,
                         ),
-                        // Animation duration
-                        autoPlayCurve: Curves.fastOutSlowIn, // Animation curve
+                        autoPlayCurve: Curves.fastOutSlowIn,
                       ),
-                      // Map your list of UnitImageEntity (or UnitImageModel) to Image.network widgets
                       items: unitDetail.images.map<Widget>((
                         UnitImageEntity image,
                       ) {
@@ -177,20 +162,15 @@ class _DetailScreenState extends State<DetailScreen> {
                           builder: (BuildContext context) {
                             return Container(
                               decoration: BoxDecoration(
-                                // Optional: Add border or background
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                // Use Image.network for web URLs
                                 child: Image.network(
                                   image.imageUrl,
-                                  // Access the imageUrl from your UnitImageEntity
                                   width: double.infinity,
-                                  // Take full width of the container
                                   fit: BoxFit.cover,
-                                  // Cover the entire space, cropping if necessary
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
                                         if (loadingProgress == null)

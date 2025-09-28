@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart' as geo;
 import 'package:provider/provider.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
 import 'package:rent_app/presentation/widgets/subHeading.dart';
@@ -83,7 +82,6 @@ class _LocationPickerState extends State<LocationPicker> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Collapsed view
                       if (_showCollapsedReturn)
                         AnimatedOpacity(
                           opacity: isExpandedReturn ? 0.0 : 1.0,
@@ -133,7 +131,6 @@ class _LocationPickerState extends State<LocationPicker> {
                           ),
                         ),
 
-                      // Expanded view
                       if (_showExpandedReturn)
                         AnimatedOpacity(
                           opacity: isExpandedReturn ? 1.0 : 0.0,

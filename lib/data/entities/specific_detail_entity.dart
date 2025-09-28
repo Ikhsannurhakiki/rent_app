@@ -1,87 +1,11 @@
-// lib/domain/entities/unit_detail_entity.dart
 import 'package:equatable/equatable.dart';
 
-import 'owner_model.dart';
+abstract class SpecificDetailsEntity extends Equatable {
+  const SpecificDetailsEntity();
 
-// Abstract class untuk detail spesifik Entity
-abstract class SpecificDetailsEntity extends Equatable {}
-
-class UnitDetailEntity extends Equatable {
-  final int unitId;
-  final int ownerId;
-  final int unitTypeId;
-  final String name;
-  final String description;
-  final double dailyRate;
-  final String currency;
-  final String location;
-  final String availabilityStatus;
-  final String? thumbnailImageUrl;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final SpecificDetailsEntity? specificDetails;
-  final List<UnitImageEntity> images;
-
-  final int ownerUserId;
-  final String ownerFullName;
-  final String ownerEmail;
-  final String ownerPhoneNumber;
-  final DateTime ownerRegistrationDate;
-  final double ownerLatitude;
-  final double ownerLongitude;
-  final OwnerModel? ownerDetails;
-
-
-  const UnitDetailEntity({
-    required this.unitId,
-    required this.ownerId,
-    required this.unitTypeId,
-    required this.name,
-    required this.description,
-    required this.dailyRate,
-    required this.currency,
-    required this.location,
-    required this.availabilityStatus,
-    this.thumbnailImageUrl,
-    required this.createdAt,
-    required this.updatedAt,
-    this.specificDetails,
-    required this.images,
-    required this.ownerUserId,
-    required this.ownerFullName,
-    required this.ownerEmail,
-    required this.ownerPhoneNumber,
-    required this.ownerRegistrationDate,
-    required this.ownerLatitude,
-    required this.ownerLongitude,
-    this.ownerDetails,
-  });
-
-  @override
-  List<Object?> get props => [
-    unitId,
-    ownerId,
-    unitTypeId,
-    name,
-    description,
-    dailyRate,
-    currency,
-    location,
-    availabilityStatus,
-    thumbnailImageUrl,
-    createdAt,
-    updatedAt,
-    specificDetails,
-    images,
-    ownerUserId,
-    ownerFullName,
-    ownerEmail,
-    ownerPhoneNumber,
-    ownerRegistrationDate,
-  ];
+  Map<String, dynamic> toJson();
 }
 
-// lib/domain/entities/car_detail_entity.dart
 class CarDetailEntity extends SpecificDetailsEntity {
   final int carDetailId;
   final int unitId;
@@ -96,7 +20,7 @@ class CarDetailEntity extends SpecificDetailsEntity {
   final String subType;
   final String engine;
 
-  CarDetailEntity({
+  const CarDetailEntity({
     required this.carDetailId,
     required this.unitId,
     required this.make,
@@ -126,9 +50,24 @@ class CarDetailEntity extends SpecificDetailsEntity {
     subType,
     engine,
   ];
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'car_detail_id': carDetailId,
+    'unit_id': unitId,
+    'make': make,
+    'model': model,
+    'year': year,
+    'transmission': transmission,
+    'fuel_type': fuelType,
+    'passenger_capacity': passengerCapacity,
+    'license_plate': licensePlate,
+    'color': color,
+    'sub_type': subType,
+    'engine': engine,
+  };
 }
 
-// lib/domain/entities/motorcycle_detail_entity.dart
 class MotorcycleDetailEntity extends SpecificDetailsEntity {
   final int motorcycleDetailId;
   final int unitId;
@@ -139,8 +78,10 @@ class MotorcycleDetailEntity extends SpecificDetailsEntity {
   final String transmission;
   final String licensePlate;
   final String color;
+  final String subType;
+  final String engine;
 
-  MotorcycleDetailEntity({
+  const MotorcycleDetailEntity({
     required this.motorcycleDetailId,
     required this.unitId,
     required this.make,
@@ -150,6 +91,8 @@ class MotorcycleDetailEntity extends SpecificDetailsEntity {
     required this.transmission,
     required this.licensePlate,
     required this.color,
+    required this.subType,
+    required this.engine,
   });
 
   @override
@@ -163,10 +106,26 @@ class MotorcycleDetailEntity extends SpecificDetailsEntity {
     transmission,
     licensePlate,
     color,
+    subType,
+    engine,
   ];
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'motorcycle_detail_id': motorcycleDetailId,
+    'unit_id': unitId,
+    'make': make,
+    'model': model,
+    'year': year,
+    'engine_cc': engineCc,
+    'transmission': transmission,
+    'license_plate': licensePlate,
+    'color': color,
+    'sub_type': subType,
+    'engine': engine,
+  };
 }
 
-// lib/domain/entities/house_detail_entity.dart
 class HouseDetailEntity extends SpecificDetailsEntity {
   final int houseDetailId;
   final int unitId;
@@ -180,7 +139,7 @@ class HouseDetailEntity extends SpecificDetailsEntity {
   final String postalCode;
   final String? amenities;
 
-  HouseDetailEntity({
+  const HouseDetailEntity({
     required this.houseDetailId,
     required this.unitId,
     required this.numBedrooms,
@@ -208,20 +167,19 @@ class HouseDetailEntity extends SpecificDetailsEntity {
     postalCode,
     amenities,
   ];
-}
-
-// lib/domain/entities/unit_image_entity.dart
-class UnitImageEntity extends Equatable {
-  final int imageId;
-  final String imageUrl;
-  final bool isThumbnail;
-
-  const UnitImageEntity({
-    required this.imageId,
-    required this.imageUrl,
-    required this.isThumbnail,
-  });
 
   @override
-  List<Object?> get props => [imageId, imageUrl, isThumbnail];
+  Map<String, dynamic> toJson() => {
+    'house_detail_id': houseDetailId,
+    'unit_id': unitId,
+    'num_bedrooms': numBedrooms,
+    'num_bathrooms': numBathrooms,
+    'area_sqm': areaSqm,
+    'property_type': propertyType,
+    'full_address': fullAddress,
+    'city': city,
+    'province': province,
+    'postal_code': postalCode,
+    'amenities': amenities,
+  };
 }

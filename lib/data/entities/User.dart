@@ -8,7 +8,6 @@ class User {
   @override
   String toString() => 'User(userId: $userId, name: $name, token: $token)';
 
-  // Converts a User object into a Map (for serialization to JSON)
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
@@ -17,7 +16,6 @@ class User {
     };
   }
 
-  // Creates a User object from a Map (for deserialization from JSON)
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       userId: json['userId'] as String?,
@@ -26,8 +24,6 @@ class User {
     );
   }
 
-  // Note: Your existing `toMap` and `fromMap` methods are essentially the
-  // manual implementation of `toJson` and `fromJson`. You can use either naming convention.
   Map<String, dynamic> toMap() {
     return {'userId': userId, 'name': name, 'token': token};
   }

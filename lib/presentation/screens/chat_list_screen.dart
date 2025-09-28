@@ -55,7 +55,6 @@ class ChatListScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
             onTap: () {
-              // Navigate to chat screen
               Navigator.push(
                 context,
                 MaterialPageRoute(

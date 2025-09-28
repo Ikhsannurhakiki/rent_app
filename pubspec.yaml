@@ -97,6 +97,7 @@ flutter:
       - assets/lottie/success.json
       - assets/lottie/failed.json
       - assets/img/regist.png
+      - assets/img/login.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

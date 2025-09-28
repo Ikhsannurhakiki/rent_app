@@ -5,7 +5,7 @@ final List<String> bannerUrls = [
   'assets/banner/banner3.png',
 ];
 
-final List<RentItemEntity> dummyeElectricVehicleItems = [
+final List<RentItemEntity> dummyElectricVehicleItems = [
   RentItemEntity(
     id: 'ev1',
     name: 'Tesla Model 3',

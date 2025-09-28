@@ -1,22 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rent_app/presentation/style/colors/app_colors.dart';
-
-void main() {
-  runApp(const ProfileApp());
-}
-
-class ProfileApp extends StatelessWidget {
-  const ProfileApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile Screen',
-      theme: ThemeData(primarySwatch: Colors.teal),
-      home: const ProfileScreen(),
-    );
-  }
-}
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -49,7 +31,6 @@ class ProfileScreen extends StatelessWidget {
             subtitle: const Text("johndoe123"),
             trailing: const Icon(Icons.edit),
             onTap: () {
-              // Edit username
             },
           ),
           ListTile(
@@ -58,7 +39,6 @@ class ProfileScreen extends StatelessWidget {
             subtitle: const Text("john.doe@example.com"),
             trailing: const Icon(Icons.edit),
             onTap: () {
-              // Edit email
             },
           ),
           ListTile(
@@ -67,7 +47,6 @@ class ProfileScreen extends StatelessWidget {
             subtitle: const Text("Pekanbaru, Riau"),
             trailing: const Icon(Icons.edit_location_alt),
             onTap: () {
-              // Edit location
             },
           ),
           ListTile(
@@ -76,7 +55,6 @@ class ProfileScreen extends StatelessWidget {
             subtitle: const Text("+62 812 3456 7890"),
             trailing: const Icon(Icons.edit),
             onTap: () {
-              // Edit phone
             },
           ),
 
@@ -84,7 +62,6 @@ class ProfileScreen extends StatelessWidget {
             leading: const Icon(Icons.logout, color: Colors.red),
             title: const Text("Logout", style: TextStyle(color: Colors.red)),
             onTap: () {
-              // Handle logout
             },
           ),
         ],

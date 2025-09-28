@@ -2,15 +2,13 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart' hide Unit;
 import 'package:rent_app/data/entities/unit_type_entity.dart';
-import 'package:rent_app/data/models/specific_detail_entity.dart';
-import 'package:rent_app/data/models/unit_detail_model.dart';
-
 import 'package:rent_app/data/repositories/repository.dart';
 
 import '../../common/exception.dart';
 import '../../common/failure.dart';
 import '../datasource/remote_data_source.dart';
 import '../entities/Unit.dart';
+import '../entities/unit_detail_entity.dart';
 
 class RentRepositoryImpl implements Repository {
   final RemoteDataSource remoteDataSource;

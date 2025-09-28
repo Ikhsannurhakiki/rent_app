@@ -16,7 +16,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
   DateTime? _rangeEnd;
   DateTime _focusedDay = DateTime.now();
 
-  // 🔹 Contoh tanggal yang sudah dibooking
   final List<DateTime> bookedDates = [
     DateTime(2025, 8, 15),
     DateTime(2025, 8, 18),
@@ -32,7 +31,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
 
   @override
   Widget build(BuildContext context) {
-    // 🔹 Hitung informasi range
     String? displayText;
     if (_rangeStart != null && _rangeEnd == null) {
       final start = _rangeStart!.toLocal();
@@ -47,6 +45,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
       final startStr = dateFormat.format(start);
       final endStr = dateFormat.format(end);
       displayText = "$dayCount days ($startStr - $endStr)";
+    }else{
+      displayText = "Pick the date";
     }
 
     return Scaffold(
@@ -64,7 +64,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
             rangeEndDay: _rangeEnd,
             rangeSelectionMode: RangeSelectionMode.toggledOn,
 
-            // 🔹 Disable booked dates
             enabledDayPredicate: (day) {
               return !isBooked(day);
             },
@@ -120,7 +119,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
                 if (isBooked(day)) {
                   return Container(
                     decoration: const BoxDecoration(
-                      color: Colors.grey, // 🔹 Background merah untuk booked
+                      color: Colors.grey,
                       shape: BoxShape.circle,
                     ),
                     margin: const EdgeInsets.all(4.0),

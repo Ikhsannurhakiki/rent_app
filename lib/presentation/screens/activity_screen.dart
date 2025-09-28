@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../style/colors/app_colors.dart';
 import '../widgets/activity_card.dart';
 
 class ActivityScreen extends StatelessWidget{

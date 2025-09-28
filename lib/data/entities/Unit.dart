@@ -15,13 +15,6 @@ class Unit extends Equatable {
     this.imageGallery,
   });
 
-  // Unit.summary({
-  //   required this.id,
-  //   required this.name,
-  //   required this.thumbnailImageUrl,
-  //   required this.dailyRate,
-  // });
-
   final int id;
   final String name;
   final String? description;

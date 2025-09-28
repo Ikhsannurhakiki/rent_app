@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:rent_app/data/models/unit_detail_model.dart'; // Pastikan path ini benar
+import 'package:rent_app/data/models/unit_detail_model.dart';
 
 class UnitDetailResponse extends Equatable {
-  final UnitDetailModel detail; // Properti untuk menyimpan satu objek detail unit
+  final UnitDetailModel detail;
 
   const UnitDetailResponse({required this.detail});
 

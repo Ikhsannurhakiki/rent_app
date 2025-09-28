@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dartz/dartz.dart' hide Unit;
 
 import '../../common/failure.dart';

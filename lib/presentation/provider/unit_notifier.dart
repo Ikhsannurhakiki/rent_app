@@ -4,7 +4,7 @@ import 'package:rent_app/data/usecase/get_unit.dart';
 
 import '../../common/state_enum.dart';
 import '../../data/entities/Unit.dart';
-import '../../data/models/specific_detail_entity.dart';
+import '../../data/entities/unit_detail_entity.dart';
 import '../../data/usecase/get_unit_detail.dart';
 import '../../data/usecase/get_unit_types.dart';
 

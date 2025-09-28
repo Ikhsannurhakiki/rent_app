@@ -9,7 +9,6 @@ class Unit {
     required this.images,
   });
 
-  // Metode statis untuk membuat objek Unit dengan data dummy
   static Unit dummy() {
     return Unit(
       id: 1,

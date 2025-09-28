@@ -1,11 +1,11 @@
-// Pastikan semua impor sudah benar
-import 'package:equatable/equatable.dart';
-import 'package:rent_app/data/models/specific_detail_entity.dart';
+import 'package:rent_app/data/entities/specific_detail_entity.dart';
+import 'package:rent_app/data/models/spesific_detail_model.dart';
 
+import '../entities/unit_detail_entity.dart';
+import 'unit_image_model.dart';
 import 'owner_model.dart';
 
-// Kelas utama untuk merepresentasikan semua data detail unit
-class UnitDetailModel extends Equatable {
+class UnitDetailModel {
   final int unitId;
   final int ownerId;
   final int unitTypeId;
@@ -18,7 +18,7 @@ class UnitDetailModel extends Equatable {
   final String? thumbnailImageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final SpecificDetails? specificDetails;
+  final dynamic specificDetails;
   final List<UnitImageModel> images;
 
   final int ownerUserId;
@@ -56,133 +56,67 @@ class UnitDetailModel extends Equatable {
   });
 
   factory UnitDetailModel.fromJson(Map<String, dynamic> json) {
-    SpecificDetails? parsedSpecificDetails;
-
-    if (json['specific_details'] != null && json['unit_type_id'] != null) {
-      final Map<String, dynamic> detailJson = json['specific_details'];
-      switch (int.parse(json['unit_type_id'])) {
+    dynamic parsedSpecificDetails;
+    if (json['specific_details'] != null) {
+      switch ((json['unit_type_id'] is int)
+          ? json['unit_type_id'] as int
+          : int.parse(json['unit_type_id'].toString())) {
         case 1:
-          parsedSpecificDetails = CarDetailModel.fromJson(detailJson);
+          parsedSpecificDetails = CarDetailModel.fromJson(
+            json['specific_details'],
+          );
           break;
         case 2:
-          parsedSpecificDetails = MotorcycleDetailModel.fromJson(detailJson);
+          parsedSpecificDetails = MotorcycleDetailModel.fromJson(
+            json['specific_details'],
+          );
           break;
         case 3:
-          parsedSpecificDetails = HouseDetailModel.fromJson(detailJson);
+          parsedSpecificDetails = HouseDetailModel.fromJson(
+            json['specific_details'],
+          );
           break;
         default:
           break;
       }
     }
 
-    OwnerModel? parsedOwnerDetails;
-    if (json['owner_details'] != null) {
-      parsedOwnerDetails = OwnerModel.fromJson(json['owner_details']);
-    }
-
     return UnitDetailModel(
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      ownerId: int.tryParse(json['owner_id']?.toString() ?? '') ?? 0,
-      unitTypeId: int.tryParse(json['unit_type_id']?.toString() ?? '') ?? 0,
-      name: json['name'] as String,
-      description: json['description'] as String,
-      dailyRate: double.tryParse(json['daily_rate']?.toString() ?? '') ?? 0.0,
-      currency: json['currency'] as String,
-      location: json['location'] as String,
-      availabilityStatus: json['availability_status'] as String,
-      thumbnailImageUrl: json['thumbnail_image_url'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      unitId: int.parse(json['unit_id'].toString()),
+      ownerId: int.parse(json['owner_id'].toString()),
+      unitTypeId: int.parse(json['unit_type_id'].toString()),
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      dailyRate: double.tryParse(json['daily_rate'].toString()) ?? 0.0,
+      currency: json['currency']?.toString() ?? '',
+      location: json['location']?.toString() ?? '',
+      availabilityStatus: json['availability_status']?.toString() ?? '',
+      thumbnailImageUrl: json['thumbnail_image_url']?.toString(),
+      createdAt: DateTime.parse(json['created_at'].toString()),
+      updatedAt: DateTime.parse(json['updated_at'].toString()),
       specificDetails: parsedSpecificDetails,
-      images: (json['images'] as List<dynamic>)
-          .map((e) => UnitImageModel.fromJson(e as Map<String, dynamic>))
+      images: (json['images'] as List<dynamic>? ?? [])
+          .map((img) => UnitImageModel.fromJson(img))
           .toList(),
-      ownerUserId: int.tryParse(json['owner_user_id']?.toString() ?? '') ?? 0,
-      ownerFullName: json['owner_full_name'] as String,
-      ownerEmail: json['owner_email'] as String,
-      ownerPhoneNumber: json['owner_phone_number'] as String,
-      ownerRegistrationDate: DateTime.parse(json['owner_registration_date'] as String),
-      ownerLatitude: double.tryParse(json['owner_latitude']?.toString() ?? '') ?? 0.0,
-      ownerLongitude: double.tryParse(json['owner_longitude']?.toString() ?? '') ?? 0.0,
-      ownerDetails: parsedOwnerDetails,
+      ownerUserId: int.parse(json['owner_user_id'].toString()),
+      ownerFullName: json['owner_full_name']?.toString() ?? '',
+      ownerEmail: json['owner_email']?.toString() ?? '',
+      ownerPhoneNumber: json['owner_phone_number']?.toString() ?? '',
+      ownerRegistrationDate: DateTime.parse(
+        json['owner_registration_date'].toString(),
+      ),
+      ownerLatitude: double.tryParse(json['owner_latitude'].toString()) ?? 0.0,
+      ownerLongitude:
+          double.tryParse(json['owner_longitude'].toString()) ?? 0.0,
+      ownerDetails: json['owner_details'] != null
+          ? OwnerModel.fromJson(json['owner_details'])
+          : null,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {
-      'unit_id': unitId,
-      'owner_id': ownerId,
-      'unit_type_id': unitTypeId,
-      'name': name,
-      'description': description,
-      'daily_rate': dailyRate,
-      'currency': currency,
-      'location': location,
-      'availability_status': availabilityStatus,
-      'thumbnail_image_url': thumbnailImageUrl,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-      'images': images.map((image) => image.toJson()).toList(),
-      'owner_user_id': ownerUserId,
-      'owner_full_name': ownerFullName,
-      'owner_email': ownerEmail,
-      'owner_phone_number': ownerPhoneNumber,
-      'owner_registration_date': ownerRegistrationDate.toIso8601String(),
-      'owner_latitude': ownerLatitude,
-      'owner_longitude': ownerLongitude,
-    };
-
-    if (specificDetails != null) {
-      if (specificDetails is CarDetailModel) {
-        json['specific_details'] = (specificDetails as CarDetailModel).toJson();
-      } else if (specificDetails is MotorcycleDetailModel) {
-        json['specific_details'] = (specificDetails as MotorcycleDetailModel).toJson();
-      } else if (specificDetails is HouseDetailModel) {
-        json['specific_details'] = (specificDetails as HouseDetailModel).toJson();
-      }
-    } else {
-      json['specific_details'] = {};
-    }
-
-    if (ownerDetails != null) {
-      json['owner_details'] = ownerDetails!.toJson();
-    }
-
-    return json;
-  }
-
-  @override
-  List<Object?> get props => [
-    unitId,
-    ownerId,
-    unitTypeId,
-    name,
-    description,
-    dailyRate,
-    currency,
-    location,
-    availabilityStatus,
-    thumbnailImageUrl,
-    createdAt,
-    updatedAt,
-    specificDetails,
-    images,
-    ownerUserId,
-    ownerFullName,
-    ownerEmail,
-    ownerPhoneNumber,
-    ownerRegistrationDate,
-    ownerLatitude,
-    ownerLongitude,
-    ownerDetails,
-  ];
-
-  // ======================================
-  // Tambahkan metode toEntity() di sini
-  // ======================================
   UnitDetailEntity toEntity() {
     SpecificDetailsEntity? entitySpecificDetails;
-    print(specificDetails);
+
     if (specificDetails != null) {
       if (specificDetails is CarDetailModel) {
         entitySpecificDetails = (specificDetails as CarDetailModel).toEntity();
@@ -217,349 +151,34 @@ class UnitDetailModel extends Equatable {
       ownerRegistrationDate: ownerRegistrationDate,
       ownerLatitude: ownerLatitude,
       ownerLongitude: ownerLongitude,
-      ownerDetails: ownerDetails,
-    );
-  }
-}
-
-// Abstract class untuk detail spesifik
-abstract class SpecificDetails extends Equatable {
-  Map<String, dynamic> toJson();
-
-  SpecificDetailsEntity toEntity(); // Tambahkan deklarasi toEntity
-  @override
-  List<Object?> get props;
-}
-
-// Kelas untuk detail spesifik Mobil
-class CarDetailModel extends SpecificDetails {
-  final int carDetailId;
-  final int unitId;
-  final String make;
-  final String model;
-  final int year;
-  final String transmission;
-  final String fuelType;
-  final int passengerCapacity;
-  final String licensePlate;
-  final String color;
-  final String subType;
-  final String engine;
-
-  CarDetailModel({
-    required this.carDetailId,
-    required this.unitId,
-    required this.make,
-    required this.model,
-    required this.year,
-    required this.transmission,
-    required this.fuelType,
-    required this.passengerCapacity,
-    required this.licensePlate,
-    required this.color,
-    required this.subType,
-    required this.engine,
-  });
-
-  factory CarDetailModel.fromJson(Map<String, dynamic> json) {
-    return CarDetailModel(
-      carDetailId: int.tryParse(json['car_detail_id']?.toString() ?? '') ?? 0,
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      make: json['make'] as String,
-      model: json['model'] as String,
-      year: int.tryParse(json['year']?.toString() ?? '') ?? 0,
-      transmission: json['transmission'] as String,
-      fuelType: json['fuel_type'] as String,
-      passengerCapacity:
-          int.tryParse(json['passenger_capacity']?.toString() ?? '') ?? 0,
-      licensePlate: json['license_plate'] as String,
-      color: json['color'] as String,
-      subType: json['sub_type'] as String,
-      engine: json['engine'] as String,
+      ownerDetails: ownerDetails?.toEntity(),
     );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
-      'car_detail_id': carDetailId,
       'unit_id': unitId,
-      'make': make,
-      'model': model,
-      'year': year,
-      'transmission': transmission,
-      'fuel_type': fuelType,
-      'passenger_capacity': passengerCapacity,
-      'license_plate': licensePlate,
-      'color': color,
-      'sub_type': subType,
-      'engine': engine,
+      'owner_id': ownerId,
+      'unit_type_id': unitTypeId,
+      'name': name,
+      'description': description,
+      'daily_rate': dailyRate,
+      'currency': currency,
+      'location': location,
+      'availability_status': availabilityStatus,
+      'thumbnail_image_url': thumbnailImageUrl,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+      'specific_details': specificDetails?.toJson(),
+      'images': images.map((image) => image.toJson()).toList(),
+      'owner_user_id': ownerUserId,
+      'owner_full_name': ownerFullName,
+      'owner_email': ownerEmail,
+      'owner_phone_number': ownerPhoneNumber,
+      'owner_registration_date': ownerRegistrationDate.toIso8601String(),
+      'owner_latitude': ownerLatitude,
+      'owner_longitude': ownerLongitude,
+      'owner_details': ownerDetails?.toJson(),
     };
-  }
-
-  @override
-  List<Object?> get props => [
-    carDetailId,
-    unitId,
-    make,
-    model,
-    year,
-    transmission,
-    fuelType,
-    passengerCapacity,
-    licensePlate,
-    color,
-    subType,
-    engine,
-  ];
-
-  // ======================================
-  // Tambahkan metode toEntity() di sini
-  // ======================================
-  @override
-  CarDetailEntity toEntity() {
-    return CarDetailEntity(
-      carDetailId: carDetailId,
-      unitId: unitId,
-      make: make,
-      model: model,
-      year: year,
-      transmission: transmission,
-      fuelType: fuelType,
-      passengerCapacity: passengerCapacity,
-      licensePlate: licensePlate,
-      color: color,
-      subType: subType,
-      engine: engine,
-    );
-  }
-}
-
-// Kelas untuk detail spesifik Motor
-class MotorcycleDetailModel extends SpecificDetails {
-  final int motorcycleDetailId;
-  final int unitId;
-  final String make;
-  final String model;
-  final int year;
-  final int engineCc;
-  final String transmission;
-  final String licensePlate;
-  final String color;
-
-  MotorcycleDetailModel({
-    required this.motorcycleDetailId,
-    required this.unitId,
-    required this.make,
-    required this.model,
-    required this.year,
-    required this.engineCc,
-    required this.transmission,
-    required this.licensePlate,
-    required this.color,
-  });
-
-  factory MotorcycleDetailModel.fromJson(Map<String, dynamic> json) {
-    return MotorcycleDetailModel(
-      motorcycleDetailId:
-          int.tryParse(json['motorcycle_detail_id']?.toString() ?? '') ?? 0,
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      make: json['make'] as String,
-      model: json['model'] as String,
-      year: int.tryParse(json['year']?.toString() ?? '') ?? 0,
-      engineCc: int.tryParse(json['engine_cc']?.toString() ?? '') ?? 0,
-      transmission: json['transmission'] as String,
-      licensePlate: json['license_plate'] as String,
-      color: json['color'] as String,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      'motorcycle_detail_id': motorcycleDetailId,
-      'unit_id': unitId,
-      'make': make,
-      'model': model,
-      'year': year,
-      'engine_cc': engineCc,
-      'transmission': transmission,
-      'license_plate': licensePlate,
-      'color': color,
-    };
-  }
-
-  @override
-  List<Object?> get props => [
-    motorcycleDetailId,
-    unitId,
-    make,
-    model,
-    year,
-    engineCc,
-    transmission,
-    licensePlate,
-    color,
-  ];
-
-  // ======================================
-  // Tambahkan metode toEntity() di sini
-  // ======================================
-  @override
-  MotorcycleDetailEntity toEntity() {
-    return MotorcycleDetailEntity(
-      motorcycleDetailId: motorcycleDetailId,
-      unitId: unitId,
-      make: make,
-      model: model,
-      year: year,
-      engineCc: engineCc,
-      transmission: transmission,
-      licensePlate: licensePlate,
-      color: color,
-    );
-  }
-}
-
-// Kelas untuk detail spesifik Rumah
-class HouseDetailModel extends SpecificDetails {
-  final int houseDetailId;
-  final int unitId;
-  final int numBedrooms;
-  final int numBathrooms;
-  final double areaSqm;
-  final String propertyType;
-  final String fullAddress;
-  final String city;
-  final String province;
-  final String postalCode;
-  final String? amenities;
-
-  HouseDetailModel({
-    required this.houseDetailId,
-    required this.unitId,
-    required this.numBedrooms,
-    required this.numBathrooms,
-    required this.areaSqm,
-    required this.propertyType,
-    required this.fullAddress,
-    required this.city,
-    required this.province,
-    required this.postalCode,
-    this.amenities,
-  });
-
-  factory HouseDetailModel.fromJson(Map<String, dynamic> json) {
-    return HouseDetailModel(
-      houseDetailId:
-          int.tryParse(json['house_detail_id']?.toString() ?? '') ?? 0,
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      numBedrooms: int.tryParse(json['num_bedrooms']?.toString() ?? '') ?? 0,
-      numBathrooms: int.tryParse(json['num_bathrooms']?.toString() ?? '') ?? 0,
-      areaSqm: double.tryParse(json['area_sqm']?.toString() ?? '') ?? 0.0,
-      propertyType: json['property_type'] as String,
-      fullAddress: json['full_address'] as String,
-      city: json['city'] as String,
-      province: json['province'] as String,
-      postalCode: json['postal_code'] as String,
-      amenities: json['amenities'] as String?,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      'house_detail_id': houseDetailId,
-      'unit_id': unitId,
-      'num_bedrooms': numBedrooms,
-      'num_bathrooms': numBathrooms,
-      'area_sqm': areaSqm,
-      'property_type': propertyType,
-      'full_address': fullAddress,
-      'city': city,
-      'province': province,
-      'postal_code': postalCode,
-      'amenities': amenities,
-    };
-  }
-
-  @override
-  List<Object?> get props => [
-    houseDetailId,
-    unitId,
-    numBedrooms,
-    numBathrooms,
-    areaSqm,
-    propertyType,
-    fullAddress,
-    city,
-    province,
-    postalCode,
-    amenities,
-  ];
-
-  // ======================================
-  // Tambahkan metode toEntity() di sini
-  // ======================================
-  @override
-  HouseDetailEntity toEntity() {
-    return HouseDetailEntity(
-      houseDetailId: houseDetailId,
-      unitId: unitId,
-      numBedrooms: numBedrooms,
-      numBathrooms: numBathrooms,
-      areaSqm: areaSqm,
-      propertyType: propertyType,
-      fullAddress: fullAddress,
-      city: city,
-      province: province,
-      postalCode: postalCode,
-      amenities: amenities,
-    );
-  }
-}
-
-// Kelas untuk detail gambar unit
-class UnitImageModel extends Equatable {
-  final int imageId;
-  final String imageUrl;
-  final bool isThumbnail;
-
-  const UnitImageModel({
-    required this.imageId,
-    required this.imageUrl,
-    required this.isThumbnail,
-  });
-
-  factory UnitImageModel.fromJson(Map<String, dynamic> json) {
-    return UnitImageModel(
-      imageId: int.tryParse(json['image_id']?.toString() ?? '') ?? 0,
-      imageUrl: json['image_url'] as String,
-      isThumbnail:
-          json['is_thumbnail'].toString() == '1' ||
-          json['is_thumbnail'] == true,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'image_id': imageId,
-      'image_url': imageUrl,
-      'is_thumbnail': isThumbnail ? 1 : 0,
-    };
-  }
-
-  @override
-  List<Object?> get props => [imageId, imageUrl, isThumbnail];
-
-  // ======================================
-  // Tambahkan metode toEntity() di sini
-  // ======================================
-  UnitImageEntity toEntity() {
-    return UnitImageEntity(
-      imageId: imageId,
-      imageUrl: imageUrl,
-      isThumbnail: isThumbnail,
-    );
   }
 }

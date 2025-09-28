@@ -53,7 +53,6 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _initLocation() async {
     final mapProvider = context.read<MapProvider>();
 
-    // 1️⃣ Check if pickup or return already set
     bool hasPickup = mapProvider.latLngPickUp != null;
     bool hasReturn = mapProvider.latLngReturn != null;
 
@@ -67,7 +66,6 @@ class _MapScreenState extends State<MapScreen> {
       latLng = mapProvider.latLngReturn;
       placemark = mapProvider.placemarkReturn;
     } else {
-      // 2️⃣ Both are null → use current location
       bool serviceEnabled = await _locationService.serviceEnabled();
       if (!serviceEnabled) {
         serviceEnabled = await _locationService.requestService();
@@ -99,7 +97,6 @@ class _MapScreenState extends State<MapScreen> {
       }
     }
 
-    // 3️⃣ Update marker & map
     if (latLng != null) {
       setState(() {
         _currentLatLng = latLng;

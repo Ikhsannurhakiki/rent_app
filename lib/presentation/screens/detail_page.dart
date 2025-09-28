@@ -4,10 +4,13 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
 import 'package:rent_app/presentation/screens/booking_screen.dart';
+import 'package:rent_app/presentation/widgets/profile_card.dart';
 
 import '../../common/constants.dart';
 import '../../common/state_enum.dart';
-import '../../data/models/specific_detail_entity.dart';
+import '../../data/entities/specific_detail_entity.dart';
+import '../../data/entities/unit_detail_entity.dart';
+import '../../data/entities/unit_image_entity.dart';
 import '../widgets/rent_item_card.dart';
 import '../widgets/subHeading.dart';
 
@@ -71,26 +74,11 @@ class _DetailContentState extends State<DetailContent> {
     });
 
     if (isExpanded) {
-      // Show expanded immediately
       setState(() => _showCollapsed = false);
       setState(() => _showExpanded = true);
-      // Hide collapsed after fade duration
-      // Future.delayed(const Duration(milliseconds: 500), () {
-      //   if (mounted && isExpanded) {
-      //     setState(() => _showCollapsed = false);
-      //   }
-      // });
     } else {
-      // Show collapsed immediately
       setState(() => _showExpanded = false);
-
       setState(() => _showCollapsed = true);
-      // Hide expanded after fade duration
-      // Future.delayed(const Duration(milliseconds: 500), () {
-      //   if (mounted && !isExpanded) {
-      //     setState(() => _showExpanded = false);
-      //   }
-      // });
     }
   }
 
@@ -104,7 +92,6 @@ class _DetailContentState extends State<DetailContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Collapsed view
               if (_showCollapsed)
                 AnimatedOpacity(
                   opacity: isExpanded ? 0.0 : 1.0,
@@ -126,7 +113,6 @@ class _DetailContentState extends State<DetailContent> {
                   ),
                 ),
 
-              // Expanded view
               if (_showExpanded)
                 AnimatedOpacity(
                   opacity: isExpanded ? 1.0 : 0.0,
@@ -240,7 +226,6 @@ class _DetailContentState extends State<DetailContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Collapsed view
               if (_showCollapsed)
                 AnimatedOpacity(
                   opacity: isExpanded ? 0.0 : 1.0,
@@ -250,7 +235,8 @@ class _DetailContentState extends State<DetailContent> {
                     children: [
                       _buildIconColumn(
                         'assets/icons/motorcycle.png',
-                        "${motorcycle.make} ${motorcycle.model} ${motorcycle.year}",
+                        "${motorcycle.make} ${motorcycle.model} ${motorcycle
+                            .year}",
                         context,
                       ),
                       _buildIconColumn(
@@ -262,7 +248,6 @@ class _DetailContentState extends State<DetailContent> {
                   ),
                 ),
 
-              // Expanded view
               if (_showExpanded)
                 AnimatedOpacity(
                   opacity: isExpanded ? 1.0 : 0.0,
@@ -274,7 +259,8 @@ class _DetailContentState extends State<DetailContent> {
                         children: [
                           _buildIconColumn(
                             'assets/icons/motorcycle.png',
-                            "${motorcycle.make} ${motorcycle.model} ${motorcycle.year}",
+                            "${motorcycle.make} ${motorcycle.model} ${motorcycle
+                                .year}",
                             context,
                           ),
                           _buildIconColumn(
@@ -338,20 +324,12 @@ class _DetailContentState extends State<DetailContent> {
     );
   }
 
-  // --- NEW HELPER FUNCTION TO BUILD THE ENTIRE SPECIFIC DETAILS SECTION ---
-  Widget _buildSpecificDetailsSection(
-    BuildContext context,
-    UnitDetailEntity unitDetail,
-  ) {
-    // If specificDetails is null, don't show anything
+  Widget _buildSpecificDetailsSection(BuildContext context,
+      UnitDetailEntity unitDetail,) {
     if (unitDetail.specificDetails == null) {
       return const SizedBox.shrink();
     }
-
-    // This variable will hold the specific widget for car, motorcycle, or house
     Widget specificDetailContent;
-
-    // Determine which specific detail widget to return
     if (unitDetail.specificDetails is CarDetailEntity) {
       specificDetailContent = _buildCarDetails(
         unitDetail.specificDetails as CarDetailEntity,
@@ -368,7 +346,6 @@ class _DetailContentState extends State<DetailContent> {
       specificDetailContent = const Text('Tipe detail spesifik tidak dikenal.');
     }
 
-    // Return a Column containing the header and the specific content
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -382,14 +359,17 @@ class _DetailContentState extends State<DetailContent> {
           ),
         ),
         const SizedBox(height: 8),
-        specificDetailContent, // This is the single widget determined above
+        specificDetailContent,
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Container(
       color: Colors.grey[300],
       child: Stack(
@@ -404,36 +384,29 @@ class _DetailContentState extends State<DetailContent> {
                   viewportFraction: 1,
                   autoPlayInterval: const Duration(seconds: 5),
                   autoPlayAnimationDuration: const Duration(milliseconds: 600),
-                  // Animation duration
                   autoPlayCurve: Curves.fastOutSlowIn,
-                  // Animation curve
                   onPageChanged: (index, reason) {
                     setState(() {
                       _currentIndex = index;
                     });
                   },
                 ),
-                // Map your list of UnitImageEntity (or UnitImageModel) to Image.network widgets
                 items: widget.unit.images.map<Widget>((UnitImageEntity image) {
                   return Builder(
                     builder: (BuildContext context) {
                       return ClipRRect(
-                        // Use Image.network for web URLs
                         child: Image.network(
                           image.imageUrl,
-                          // Access the imageUrl from your UnitImageEntity
                           width: double.infinity,
-                          // Take full width of the container
                           fit: BoxFit.fitHeight,
-                          // Cover the entire space, cropping if necessary
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
                             return Center(
                               child: CircularProgressIndicator(
                                 value:
-                                    loadingProgress.expectedTotalBytes != null
+                                loadingProgress.expectedTotalBytes != null
                                     ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
+                                    loadingProgress.expectedTotalBytes!
                                     : null,
                               ),
                             );
@@ -460,7 +433,7 @@ class _DetailContentState extends State<DetailContent> {
                 child: Center(
                   child: AnimatedOpacity(
                     duration: const Duration(milliseconds: 300),
-                    opacity: 1.0, // you can change this to 0.0 to hide
+                    opacity: 1.0,
                     curve: Curves.easeInOut,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -468,14 +441,15 @@ class _DetailContentState extends State<DetailContent> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black, // semi-transparent background
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: widget.unit.images.asMap().entries.map((
-                          entry,
-                        ) {
+                        children: widget.unit.images
+                            .asMap()
+                            .entries
+                            .map((entry,) {
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 400),
                             width: _currentIndex == entry.key ? 10.0 : 4.0,
@@ -484,7 +458,10 @@ class _DetailContentState extends State<DetailContent> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: _currentIndex == entry.key
-                                  ? Theme.of(context).colorScheme.secondary
+                                  ? Theme
+                                  .of(context)
+                                  .colorScheme
+                                  .secondary
                                   : Colors.white,
                             ),
                           );
@@ -539,7 +516,11 @@ class _DetailContentState extends State<DetailContent> {
                                       vertical: 0,
                                     ),
                                     child: Text(
-                                      "${widget.unit.currency}  ${widget.unit.currency == "IDR" ? widget.unit.dailyRate.toStringAsFixed(0) : widget.unit.dailyRate.toStringAsFixed(2)} / day",
+                                      "${widget.unit.currency}  ${widget.unit
+                                          .currency == "IDR" ? widget.unit
+                                          .dailyRate.toStringAsFixed(0) : widget
+                                          .unit.dailyRate.toStringAsFixed(
+                                          2)} / day",
                                       style: kDailyRate,
                                     ),
                                   ),
@@ -553,36 +534,39 @@ class _DetailContentState extends State<DetailContent> {
                                       children: [
                                         Text(
                                           'Status : ',
-                                          style: Theme.of(
+                                          style: Theme
+                                              .of(
                                             context,
-                                          ).textTheme.titleMedium,
+                                          )
+                                              .textTheme
+                                              .titleMedium,
                                         ),
                                         widget.unit.availabilityStatus ==
-                                                "available"
+                                            "available"
                                             ? Lottie.asset(
-                                                'assets/lottie/success.json',
-                                                width: 20,
-                                                height: 20,
-                                                repeat: true,
-                                                reverse: true,
-                                                animate: true,
-                                              )
+                                          'assets/lottie/success.json',
+                                          width: 20,
+                                          height: 20,
+                                          repeat: true,
+                                          reverse: true,
+                                          animate: true,
+                                        )
                                             : Lottie.asset(
-                                                'assets/lottie/failed.json',
-                                                width: 20,
-                                                height: 20,
-                                                repeat: true,
-                                                reverse: true,
-                                                animate: true,
-                                              ),
+                                          'assets/lottie/failed.json',
+                                          width: 20,
+                                          height: 20,
+                                          repeat: true,
+                                          reverse: true,
+                                          animate: true,
+                                        ),
                                         Text(
                                           " ${widget.unit.availabilityStatus}",
                                           style: TextStyle(
                                             color:
-                                                widget
-                                                        .unit
-                                                        .availabilityStatus ==
-                                                    "available"
+                                            widget
+                                                .unit
+                                                .availabilityStatus ==
+                                                "available"
                                                 ? Colors.green
                                                 : Colors.red,
                                             fontWeight: FontWeight.bold,
@@ -597,75 +581,6 @@ class _DetailContentState extends State<DetailContent> {
                                       widget.unit,
                                     ),
                                   ],
-
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  //   children: [
-                                  //     Row(
-                                  //       children: [
-                                  //         RatingBarIndicator(
-                                  //           rating: unit.r.voteAverage / 2,
-                                  //           itemCount: 5,
-                                  //           itemBuilder: (context, index) => Icon(
-                                  //             Icons.star,
-                                  //             color: kMikadoYellow,
-                                  //           ),
-                                  //           itemSize: 24,
-                                  //         ),
-                                  //         SizedBox(width: 8,),
-                                  //         Text('${double.parse((movie.voteAverage / 2).toStringAsFixed(2))}', style: TextStyle(color: kMikadoYellow, fontSize: 14, fontWeight: FontWeight.w500) ),
-                                  //       ],
-                                  //     ),
-                                  //
-                                  //     FilledButton(
-                                  //       onPressed: () async {
-                                  //         if (!isAddedWatchlist) {
-                                  //           await Provider.of<MovieDetailNotifier>(
-                                  //               context,
-                                  //               listen: false)
-                                  //               .addWatchlist(movie);
-                                  //         } else {
-                                  //           await Provider.of<MovieDetailNotifier>(
-                                  //               context,
-                                  //               listen: false)
-                                  //               .removeFromWatchlist(movie);
-                                  //         }
-                                  //
-                                  //         final message =
-                                  //             Provider.of<MovieDetailNotifier>(context,
-                                  //                 listen: false)
-                                  //                 .watchlistMessage;
-                                  //
-                                  //         if (message ==
-                                  //             MovieDetailNotifier
-                                  //                 .watchlistAddSuccessMessage ||
-                                  //             message ==
-                                  //                 MovieDetailNotifier
-                                  //                     .watchlistRemoveSuccessMessage) {
-                                  //           ScaffoldMessenger.of(context).showSnackBar(
-                                  //               SnackBar(content: Text(message)));
-                                  //         } else {
-                                  //           showDialog(
-                                  //               context: context,
-                                  //               builder: (context) {
-                                  //                 return AlertDialog(
-                                  //                   content: Text(message),
-                                  //                 );
-                                  //               });
-                                  //         }
-                                  //       },
-                                  //       child: Row(
-                                  //         mainAxisSize: MainAxisSize.min,
-                                  //         children: [
-                                  //           isAddedWatchlist
-                                  //               ? Icon(Icons.check)
-                                  //               : Icon(Icons.add),
-                                  //           Text('Watchlist'),
-                                  //         ],
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
                                   SizedBox(height: 16),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -674,9 +589,12 @@ class _DetailContentState extends State<DetailContent> {
                                     ),
                                     child: Text(
                                       'Overview:',
-                                      style: Theme.of(
+                                      style: Theme
+                                          .of(
                                         context,
-                                      ).textTheme.titleMedium,
+                                      )
+                                          .textTheme
+                                          .titleMedium,
                                     ),
                                   ),
 
@@ -687,10 +605,41 @@ class _DetailContentState extends State<DetailContent> {
                                     ),
                                     child: Text(
                                       widget.unit.description,
-                                      style: Theme.of(
+                                      style: Theme
+                                          .of(
                                         context,
-                                      ).textTheme.bodyMedium,
+                                      )
+                                          .textTheme
+                                          .bodyMedium,
                                     ),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 0,
+                                    ),
+                                    child: Text(
+                                      'Owners:',
+                                      style: Theme
+                                          .of(
+                                        context,
+                                      )
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                        vertical: 0,
+                                      ),
+                                      child: ProfileCard(
+                                        name: widget.unit.ownerFullName,
+                                        businessName: widget.unit.ownerDetails!
+                                            .businessName,
+                                        imageUrl: widget.unit.ownerDetails!
+                                            .businessProfilePictureUrl,)
                                   ),
                                   SizedBox(height: 16),
                                   Padding(
@@ -716,14 +665,14 @@ class _DetailContentState extends State<DetailContent> {
                                           ),
                                         );
                                       } else if (data
-                                              .recommendationUnitsState ==
+                                          .recommendationUnitsState ==
                                           RequestState.Loaded) {
                                         return SizedBox(
                                           height: 220,
                                           child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount:
-                                                data.recommendationsUnit.length,
+                                            data.recommendationsUnit.length,
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 16,
                                             ),
@@ -775,7 +724,10 @@ class _DetailContentState extends State<DetailContent> {
                           Align(
                             alignment: Alignment.topCenter,
                             child: Container(
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: Theme
+                                  .of(context)
+                                  .colorScheme
+                                  .onSecondary,
                               height: 4,
                               width: 48,
                             ),
@@ -809,31 +761,39 @@ class _DetailContentState extends State<DetailContent> {
                             flex: 4,
                             child: ElevatedButton(
                               onPressed:
-                                  widget.unit.availabilityStatus == "available"
+                              widget.unit.availabilityStatus == "available"
                                   ? () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => BookingScreen(id: widget.unit.unitId, typeId: widget.unit.unitTypeId),
-                                        ),
-                                      );
-                                    }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        BookingScreen(id: widget.unit.unitId,
+                                            typeId: widget.unit.unitTypeId),
+                                  ),
+                                );
+                              }
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 elevation: 3,
                                 shadowColor: Colors.blue,
-                                backgroundColor: Theme.of(
+                                backgroundColor: Theme
+                                    .of(
                                   context,
-                                ).colorScheme.secondary,
+                                )
+                                    .colorScheme
+                                    .secondary,
                               ),
                               child: Text(
                                 widget.unit.availabilityStatus == "available"
                                     ? "Request Booking"
                                     : "Not Available",
                                 style: TextStyle(
-                                  color: Theme.of(
+                                  color: Theme
+                                      .of(
                                     context,
-                                  ).colorScheme.onSecondary,
+                                  )
+                                      .colorScheme
+                                      .onSecondary,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -846,7 +806,6 @@ class _DetailContentState extends State<DetailContent> {
                   ),
                 );
               },
-              // initialChildSize: 0.5,
               minChildSize: 0.5,
               maxChildSize: 0.8,
             ),
@@ -889,7 +848,8 @@ class _DetailContentState extends State<DetailContent> {
                     label: Text(
                       selectedDate == null
                           ? "Choose Date"
-                          : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                          : "${selectedDate!.day}/${selectedDate!
+                          .month}/${selectedDate!.year}",
                     ),
                   ),
                   const SizedBox(height: 10),

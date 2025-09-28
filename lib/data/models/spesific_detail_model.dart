@@ -1,11 +1,7 @@
-/// Abstract class untuk detail spesifik
-abstract class SpecificDetails {
-  // Deklarasi metode toJson() yang harus diimplementasikan oleh setiap subclass
-  Map<String, dynamic> toJson();
-}
 
-/// Kelas untuk detail spesifik Mobil
-class CarDetailModel implements SpecificDetails {
+import '../entities/specific_detail_entity.dart';
+
+class CarDetailModel {
   final int carDetailId;
   final int unitId;
   final String make;
@@ -19,7 +15,7 @@ class CarDetailModel implements SpecificDetails {
   final String subType;
   final String engine;
 
-  CarDetailModel({
+  const CarDetailModel({
     required this.carDetailId,
     required this.unitId,
     required this.make,
@@ -36,23 +32,21 @@ class CarDetailModel implements SpecificDetails {
 
   factory CarDetailModel.fromJson(Map<String, dynamic> json) {
     return CarDetailModel(
-      carDetailId: int.tryParse(json['car_detail_id']?.toString() ?? '') ?? 0,
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      make: json['make'] as String,
-      model: json['model'] as String,
-      year: int.tryParse(json['year']?.toString() ?? '') ?? 0,
-      transmission: json['transmission'] as String,
-      fuelType: json['fuel_type'] as String,
-      passengerCapacity: int.tryParse(json['passenger_capacity']?.toString() ?? '') ?? 0,
-      licensePlate: json['license_plate'] as String,
-      color: json['color'] as String,
-      subType: json['sub_type'] as String,
-      engine: json['engine'] as String,
+      carDetailId: int.tryParse(json['car_detail_id'].toString()) ?? 0,
+      unitId: int.tryParse(json['unit_id'].toString()) ?? 0,
+      make: json['make'] ?? '',
+      model: json['model'] ?? '',
+      year: int.tryParse(json['year'].toString()) ?? 0,
+      transmission: json['transmission'] ?? '',
+      fuelType: json['fuel_type'] ?? '',
+      passengerCapacity: int.tryParse(json['passenger_capacity'].toString()) ?? 0,
+      licensePlate: json['license_plate'] ?? '',
+      color: json['color'] ?? '',
+      subType: json['sub_type'] ?? '',
+      engine: json['engine'] ?? '',
     );
   }
 
-  // Implementasi metode toJson() untuk CarDetailModel
-  @override
   Map<String, dynamic> toJson() {
     return {
       'car_detail_id': carDetailId,
@@ -69,10 +63,26 @@ class CarDetailModel implements SpecificDetails {
       'engine': engine,
     };
   }
+
+  CarDetailEntity toEntity() {
+    return CarDetailEntity(
+      carDetailId: carDetailId,
+      unitId: unitId,
+      make: make,
+      model: model,
+      year: year,
+      transmission: transmission,
+      fuelType: fuelType,
+      passengerCapacity: passengerCapacity,
+      licensePlate: licensePlate,
+      color: color,
+      subType: subType,
+      engine: engine,
+    );
+  }
 }
 
-/// Kelas untuk detail spesifik Motor
-class MotorcycleDetailModel implements SpecificDetails {
+class MotorcycleDetailModel {
   final int motorcycleDetailId;
   final int unitId;
   final String make;
@@ -85,7 +95,7 @@ class MotorcycleDetailModel implements SpecificDetails {
   final String subType;
   final String engine;
 
-  MotorcycleDetailModel({
+  const MotorcycleDetailModel({
     required this.motorcycleDetailId,
     required this.unitId,
     required this.make,
@@ -101,22 +111,20 @@ class MotorcycleDetailModel implements SpecificDetails {
 
   factory MotorcycleDetailModel.fromJson(Map<String, dynamic> json) {
     return MotorcycleDetailModel(
-      motorcycleDetailId: int.tryParse(json['motorcycle_detail_id']?.toString() ?? '') ?? 0,
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      make: json['make'] as String,
-      model: json['model'] as String,
-      year: int.tryParse(json['year']?.toString() ?? '') ?? 0,
-      engineCc: int.tryParse(json['engine_cc']?.toString() ?? '') ?? 0,
-      transmission: json['transmission'] as String,
-      licensePlate: json['license_plate'] as String,
-      color: json['color'] as String,
-      subType: json['sub_type'] as String,
-      engine: json['engine'] as String,
+      motorcycleDetailId: int.tryParse(json['motorcycle_detail_id'].toString()) ?? 0,
+      unitId: int.tryParse(json['unit_id'].toString()) ?? 0,
+      make: json['make'] ?? '',
+      model: json['model'] ?? '',
+      year: int.tryParse(json['year'].toString()) ?? 0,
+      engineCc: int.tryParse(json['engine_cc'].toString()) ?? 0,
+      transmission: json['transmission'] ?? '',
+      licensePlate: json['license_plate'] ?? '',
+      color: json['color'] ?? '',
+      subType: json['sub_type'] ?? '',
+      engine: json['engine'] ?? '',
     );
   }
 
-  // Implementasi metode toJson() untuk MotorcycleDetailModel
-  @override
   Map<String, dynamic> toJson() {
     return {
       'motorcycle_detail_id': motorcycleDetailId,
@@ -132,10 +140,25 @@ class MotorcycleDetailModel implements SpecificDetails {
       'engine': engine,
     };
   }
+
+  MotorcycleDetailEntity toEntity() {
+    return MotorcycleDetailEntity(
+      motorcycleDetailId: motorcycleDetailId,
+      unitId: unitId,
+      make: make,
+      model: model,
+      year: year,
+      engineCc: engineCc,
+      transmission: transmission,
+      licensePlate: licensePlate,
+      color: color,
+      subType: subType,
+      engine: engine,
+    );
+  }
 }
 
-/// Kelas untuk detail spesifik Rumah
-class HouseDetailModel implements SpecificDetails {
+class HouseDetailModel {
   final int houseDetailId;
   final int unitId;
   final int numBedrooms;
@@ -146,9 +169,9 @@ class HouseDetailModel implements SpecificDetails {
   final String city;
   final String province;
   final String postalCode;
-  final String? amenities; // Bisa nullable
+  final String? amenities;
 
-  HouseDetailModel({
+  const HouseDetailModel({
     required this.houseDetailId,
     required this.unitId,
     required this.numBedrooms,
@@ -164,22 +187,20 @@ class HouseDetailModel implements SpecificDetails {
 
   factory HouseDetailModel.fromJson(Map<String, dynamic> json) {
     return HouseDetailModel(
-      houseDetailId: int.tryParse(json['house_detail_id']?.toString() ?? '') ?? 0,
-      unitId: int.tryParse(json['unit_id']?.toString() ?? '') ?? 0,
-      numBedrooms: int.tryParse(json['num_bedrooms']?.toString() ?? '') ?? 0,
-      numBathrooms: int.tryParse(json['num_bathrooms']?.toString() ?? '') ?? 0,
-      areaSqm: double.tryParse(json['area_sqm']?.toString() ?? '') ?? 0.0,
-      propertyType: json['property_type'] as String,
-      fullAddress: json['full_address'] as String,
-      city: json['city'] as String,
-      province: json['province'] as String,
-      postalCode: json['postal_code'] as String,
-      amenities: json['amenities'] as String?,
+      houseDetailId: int.tryParse(json['house_detail_id'].toString()) ?? 0,
+      unitId: int.tryParse(json['unit_id'].toString()) ?? 0,
+      numBedrooms: int.tryParse(json['num_bedrooms'].toString()) ?? 0,
+      numBathrooms: int.tryParse(json['num_bathrooms'].toString()) ?? 0,
+      areaSqm: double.tryParse(json['area_sqm'].toString()) ?? 0.0,
+      propertyType: json['property_type'] ?? '',
+      fullAddress: json['full_address'] ?? '',
+      city: json['city'] ?? '',
+      province: json['province'] ?? '',
+      postalCode: json['postal_code'] ?? '',
+      amenities: json['amenities'],
     );
   }
 
-  // Implementasi metode toJson() untuk HouseDetailModel
-  @override
   Map<String, dynamic> toJson() {
     return {
       'house_detail_id': houseDetailId,
@@ -194,5 +215,21 @@ class HouseDetailModel implements SpecificDetails {
       'postal_code': postalCode,
       'amenities': amenities,
     };
+  }
+
+  HouseDetailEntity toEntity() {
+    return HouseDetailEntity(
+      houseDetailId: houseDetailId,
+      unitId: unitId,
+      numBedrooms: numBedrooms,
+      numBathrooms: numBathrooms,
+      areaSqm: areaSqm,
+      propertyType: propertyType,
+      fullAddress: fullAddress,
+      city: city,
+      province: province,
+      postalCode: postalCode,
+      amenities: amenities,
+    );
   }
 }
