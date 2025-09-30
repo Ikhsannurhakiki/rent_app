@@ -16,9 +16,9 @@ class RentRepositoryImpl implements Repository {
   RentRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<Unit>>> getUnit() async {
+  Future<Either<Failure, List<Unit>>> getUnit({required String apiKey}) async {
     try {
-      final result = await remoteDataSource.getUnit();
+      final result = await remoteDataSource.getUnit(apiKey: apiKey);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
@@ -28,9 +28,9 @@ class RentRepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, UnitDetailEntity>> getUnitDetail(int unitId) async {
+  Future<Either<Failure, UnitDetailEntity>> getUnitDetail({required int unitId, required String apiKey}) async {
     try {
-      final result = await remoteDataSource.getUnitDetail(unitId);
+      final result = await remoteDataSource.getUnitDetail(unitId: unitId, apiKey: apiKey);
       return Right(result.toEntity());
     } on ServerException {
       return Left(ServerFailure(''));

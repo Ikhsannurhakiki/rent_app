@@ -9,9 +9,10 @@ class GetUnitDetail {
 
   GetUnitDetail(this.repository);
 
-  Future<Either<Failure, UnitDetailEntity>> execute(int unitId) async {
-    return repository.getUnitDetail(unitId);
+  Future<Either<Failure, UnitDetailEntity>> execute({
+    required int unitId,
+    required String apiKey,
+  }) async {
+    return repository.getUnitDetail(unitId: unitId, apiKey: apiKey);
   }
-
-
 }

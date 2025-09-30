@@ -11,6 +11,7 @@ import '../../common/state_enum.dart';
 import '../../data/entities/specific_detail_entity.dart';
 import '../../data/entities/unit_detail_entity.dart';
 import '../../data/entities/unit_image_entity.dart';
+import '../provider/auth_provider.dart';
 import '../widgets/rent_item_card.dart';
 import '../widgets/subHeading.dart';
 
@@ -28,8 +29,12 @@ class _UnitDetailPageState extends State<UnitDetailPage> {
   @override
   void initState() {
     super.initState();
+    final authProvider = context.read<AuthProvider>();
     Future.microtask(() {
-      Provider.of<UnitNotifier>(context, listen: false).fetchDetail(widget.id);
+      Provider.of<UnitNotifier>(
+        context,
+        listen: false,
+      ).fetchDetail(unitId: widget.id, apiKey: authProvider.currentUserEntity!.apiKey);
     });
   }
 
@@ -235,8 +240,7 @@ class _DetailContentState extends State<DetailContent> {
                     children: [
                       _buildIconColumn(
                         'assets/icons/motorcycle.png',
-                        "${motorcycle.make} ${motorcycle.model} ${motorcycle
-                            .year}",
+                        "${motorcycle.make} ${motorcycle.model} ${motorcycle.year}",
                         context,
                       ),
                       _buildIconColumn(
@@ -259,8 +263,7 @@ class _DetailContentState extends State<DetailContent> {
                         children: [
                           _buildIconColumn(
                             'assets/icons/motorcycle.png',
-                            "${motorcycle.make} ${motorcycle.model} ${motorcycle
-                                .year}",
+                            "${motorcycle.make} ${motorcycle.model} ${motorcycle.year}",
                             context,
                           ),
                           _buildIconColumn(
@@ -324,8 +327,10 @@ class _DetailContentState extends State<DetailContent> {
     );
   }
 
-  Widget _buildSpecificDetailsSection(BuildContext context,
-      UnitDetailEntity unitDetail,) {
+  Widget _buildSpecificDetailsSection(
+    BuildContext context,
+    UnitDetailEntity unitDetail,
+  ) {
     if (unitDetail.specificDetails == null) {
       return const SizedBox.shrink();
     }
@@ -366,10 +371,7 @@ class _DetailContentState extends State<DetailContent> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       color: Colors.grey[300],
       child: Stack(
@@ -404,9 +406,9 @@ class _DetailContentState extends State<DetailContent> {
                             return Center(
                               child: CircularProgressIndicator(
                                 value:
-                                loadingProgress.expectedTotalBytes != null
+                                    loadingProgress.expectedTotalBytes != null
                                     ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
+                                          loadingProgress.expectedTotalBytes!
                                     : null,
                               ),
                             );
@@ -446,10 +448,9 @@ class _DetailContentState extends State<DetailContent> {
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: widget.unit.images
-                            .asMap()
-                            .entries
-                            .map((entry,) {
+                        children: widget.unit.images.asMap().entries.map((
+                          entry,
+                        ) {
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 400),
                             width: _currentIndex == entry.key ? 10.0 : 4.0,
@@ -458,10 +459,7 @@ class _DetailContentState extends State<DetailContent> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: _currentIndex == entry.key
-                                  ? Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .secondary
+                                  ? Theme.of(context).colorScheme.secondary
                                   : Colors.white,
                             ),
                           );
@@ -516,11 +514,7 @@ class _DetailContentState extends State<DetailContent> {
                                       vertical: 0,
                                     ),
                                     child: Text(
-                                      "${widget.unit.currency}  ${widget.unit
-                                          .currency == "IDR" ? widget.unit
-                                          .dailyRate.toStringAsFixed(0) : widget
-                                          .unit.dailyRate.toStringAsFixed(
-                                          2)} / day",
+                                      "${widget.unit.currency}  ${widget.unit.currency == "IDR" ? widget.unit.dailyRate.toStringAsFixed(0) : widget.unit.dailyRate.toStringAsFixed(2)} / day",
                                       style: kDailyRate,
                                     ),
                                   ),
@@ -534,39 +528,36 @@ class _DetailContentState extends State<DetailContent> {
                                       children: [
                                         Text(
                                           'Status : ',
-                                          style: Theme
-                                              .of(
+                                          style: Theme.of(
                                             context,
-                                          )
-                                              .textTheme
-                                              .titleMedium,
+                                          ).textTheme.titleMedium,
                                         ),
                                         widget.unit.availabilityStatus ==
-                                            "available"
+                                                "available"
                                             ? Lottie.asset(
-                                          'assets/lottie/success.json',
-                                          width: 20,
-                                          height: 20,
-                                          repeat: true,
-                                          reverse: true,
-                                          animate: true,
-                                        )
+                                                'assets/lottie/success.json',
+                                                width: 20,
+                                                height: 20,
+                                                repeat: true,
+                                                reverse: true,
+                                                animate: true,
+                                              )
                                             : Lottie.asset(
-                                          'assets/lottie/failed.json',
-                                          width: 20,
-                                          height: 20,
-                                          repeat: true,
-                                          reverse: true,
-                                          animate: true,
-                                        ),
+                                                'assets/lottie/failed.json',
+                                                width: 20,
+                                                height: 20,
+                                                repeat: true,
+                                                reverse: true,
+                                                animate: true,
+                                              ),
                                         Text(
                                           " ${widget.unit.availabilityStatus}",
                                           style: TextStyle(
                                             color:
-                                            widget
-                                                .unit
-                                                .availabilityStatus ==
-                                                "available"
+                                                widget
+                                                        .unit
+                                                        .availabilityStatus ==
+                                                    "available"
                                                 ? Colors.green
                                                 : Colors.red,
                                             fontWeight: FontWeight.bold,
@@ -589,12 +580,9 @@ class _DetailContentState extends State<DetailContent> {
                                     ),
                                     child: Text(
                                       'Overview:',
-                                      style: Theme
-                                          .of(
+                                      style: Theme.of(
                                         context,
-                                      )
-                                          .textTheme
-                                          .titleMedium,
+                                      ).textTheme.titleMedium,
                                     ),
                                   ),
 
@@ -605,12 +593,9 @@ class _DetailContentState extends State<DetailContent> {
                                     ),
                                     child: Text(
                                       widget.unit.description,
-                                      style: Theme
-                                          .of(
+                                      style: Theme.of(
                                         context,
-                                      )
-                                          .textTheme
-                                          .bodyMedium,
+                                      ).textTheme.bodyMedium,
                                     ),
                                   ),
                                   SizedBox(height: 16),
@@ -621,25 +606,27 @@ class _DetailContentState extends State<DetailContent> {
                                     ),
                                     child: Text(
                                       'Owners:',
-                                      style: Theme
-                                          .of(
+                                      style: Theme.of(
                                         context,
-                                      )
-                                          .textTheme
-                                          .titleMedium,
+                                      ).textTheme.titleMedium,
                                     ),
                                   ),
                                   Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0,
-                                        vertical: 0,
-                                      ),
-                                      child: ProfileCard(
-                                        name: widget.unit.ownerFullName,
-                                        businessName: widget.unit.ownerDetails!
-                                            .businessName,
-                                        imageUrl: widget.unit.ownerDetails!
-                                            .businessProfilePictureUrl,)
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 0,
+                                    ),
+                                    child: ProfileCard(
+                                      name: widget.unit.ownerFullName,
+                                      businessName: widget
+                                          .unit
+                                          .ownerDetails!
+                                          .businessName,
+                                      imageUrl: widget
+                                          .unit
+                                          .ownerDetails!
+                                          .businessProfilePictureUrl,
+                                    ),
                                   ),
                                   SizedBox(height: 16),
                                   Padding(
@@ -665,14 +652,14 @@ class _DetailContentState extends State<DetailContent> {
                                           ),
                                         );
                                       } else if (data
-                                          .recommendationUnitsState ==
+                                              .recommendationUnitsState ==
                                           RequestState.Loaded) {
                                         return SizedBox(
                                           height: 220,
                                           child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount:
-                                            data.recommendationsUnit.length,
+                                                data.recommendationsUnit.length,
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 16,
                                             ),
@@ -724,10 +711,7 @@ class _DetailContentState extends State<DetailContent> {
                           Align(
                             alignment: Alignment.topCenter,
                             child: Container(
-                              color: Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .onSecondary,
+                              color: Theme.of(context).colorScheme.onSecondary,
                               height: 4,
                               width: 48,
                             ),
@@ -761,39 +745,34 @@ class _DetailContentState extends State<DetailContent> {
                             flex: 4,
                             child: ElevatedButton(
                               onPressed:
-                              widget.unit.availabilityStatus == "available"
+                                  widget.unit.availabilityStatus == "available"
                                   ? () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        BookingScreen(id: widget.unit.unitId,
-                                            typeId: widget.unit.unitTypeId),
-                                  ),
-                                );
-                              }
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BookingScreen(
+                                            id: widget.unit.unitId,
+                                            typeId: widget.unit.unitTypeId,
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 elevation: 3,
                                 shadowColor: Colors.blue,
-                                backgroundColor: Theme
-                                    .of(
+                                backgroundColor: Theme.of(
                                   context,
-                                )
-                                    .colorScheme
-                                    .secondary,
+                                ).colorScheme.secondary,
                               ),
                               child: Text(
                                 widget.unit.availabilityStatus == "available"
                                     ? "Request Booking"
                                     : "Not Available",
                                 style: TextStyle(
-                                  color: Theme
-                                      .of(
+                                  color: Theme.of(
                                     context,
-                                  )
-                                      .colorScheme
-                                      .onSecondary,
+                                  ).colorScheme.onSecondary,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -848,8 +827,7 @@ class _DetailContentState extends State<DetailContent> {
                     label: Text(
                       selectedDate == null
                           ? "Choose Date"
-                          : "${selectedDate!.day}/${selectedDate!
-                          .month}/${selectedDate!.year}",
+                          : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
                     ),
                   ),
                   const SizedBox(height: 10),

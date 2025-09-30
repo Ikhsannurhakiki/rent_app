@@ -30,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       usernameController.text,
       emailController.text,
       passwordController.text,
+      '',
     );
   }
 
@@ -229,18 +230,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           isLoading = !isLoading;
                         });
                         if (_usernameFieldKey.currentState!.validate() &&
                             _emailFieldKey.currentState!.validate() &&
                             _passwordFieldKey.currentState!.validate()) {
-                          register();
-                          scaffoldMessengerState.showSnackBar(
-                            SnackBar(content: Text(authWatch.errorMessage.toString())),
-                          );
-                          context.go('/login');
+                          await register();
+                          if (authWatch.status == AuthStatus.error) {
+                            scaffoldMessengerState.showSnackBar(
+                              SnackBar(content: Text(authWatch.errorMessage.toString())),
+                            );
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(

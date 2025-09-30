@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'home_screen.dart';
+import 'package:http/http.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,18 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _startTimer();
-  }
 
-  void _startTimer() {
-    const duration = Duration(seconds: 3);
-
-    Timer(duration, () {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
-      }
+    Future.delayed(const Duration(seconds: 2), () {
+      context.read<AuthProvider>().loadUser();
     });
   }
 
@@ -36,14 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              Icons.house_siding_rounded,
-              color: Colors.white,
-              size: 100.0,
-            ),
+            Icon(Icons.house_siding_rounded, color: Colors.white, size: 100.0),
             SizedBox(height: 20.0),
             Text(
-              'Rental Hub',
+              'RentApp',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32.0,

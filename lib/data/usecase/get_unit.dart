@@ -11,7 +11,7 @@ class GetUnit {
 
   GetUnit(this.repository);
 
-  Future<Either<Failure, List<Unit>>> execute() async {
-    return repository.getUnit();
+  Future<Either<Failure, List<Unit>>> execute({required String apiKey}) async {
+    return repository.getUnit(apiKey: apiKey);
   }
 }

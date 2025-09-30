@@ -1,21 +1,24 @@
 import 'dart:convert';
-import 'dart:ffi';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:rent_app/data/models/unit_detail_model.dart';
 import 'package:rent_app/data/models/unit_model.dart';
 
 import '../../common/exception.dart';
 import '../models/unit_type_model.dart';
+import '../models/user_model.dart';
 import '../response/unit_detail_response.dart';
 
 abstract class RemoteDataSource {
   Future<List<UnitTypeModel>> getUnitTypes();
 
-  Future<List<UnitModel>> getUnit();
+  Future<List<UnitModel>> getUnit({required String apiKey});
 
-  Future<UnitDetailModel> getUnitDetail(int unitId);
+  Future<UnitDetailModel> getUnitDetail({
+    required int unitId,
+    required String apiKey,
+  });
 
   Future<double> getRoadDistanceInKm(
     double startLat,
@@ -24,14 +27,29 @@ abstract class RemoteDataSource {
     double endLng,
     String apiKey,
   );
+
+  Future<UserCredential> registerInFirebase(String email, String password);
+
+  Future<UserModel> registerInBackend({
+    required String uid,
+    required String name,
+    required String email,
+    required String password,
+    required String phoneNumber,
+  });
+
+  Future<void> logout();
+
+  Future<UserModel> getSqlUser({required String uid});
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   static const BASE_URL = 'https://rentapp.cyou';
 
   final http.Client client;
+  final FirebaseAuth auth;
 
-  RemoteDataSourceImpl({required this.client});
+  RemoteDataSourceImpl({required this.client, required this.auth});
 
   @override
   Future<List<UnitTypeModel>> getUnitTypes() async {
@@ -53,15 +71,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
   }
 
-  static const String _apiKey = "";
-
-  Future<List<UnitModel>> getUnit() async {
+  Future<List<UnitModel>> getUnit({required String apiKey}) async {
     final response = await client.get(
       Uri.parse('https://rentapp.cyou/unit.php?action=getAll'),
-      headers: {
-        "x-api-key": _apiKey,
-        "Content-Type": "application/json",
-      },
+      headers: {"x-api-key": apiKey, "Content-Type": "application/json"},
     );
 
     if (response.statusCode == 200) {
@@ -80,13 +93,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<UnitDetailModel> getUnitDetail(int unitId) async {
+  Future<UnitDetailModel> getUnitDetail({
+    required int unitId,
+    required String apiKey,
+  }) async {
     final response = await client.get(
       Uri.parse('https://rentapp.cyou/unit.php?action=getDetail&id=$unitId'),
-      headers: {
-        "x-api-key": _apiKey,
-        "Content-Type": "application/json",
-      },
+      headers: {"x-api-key": apiKey, "Content-Type": "application/json"},
     );
 
     if (response.statusCode == 200) {
@@ -123,12 +136,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         final features = data['features'] as List;
         final firstFeature = features.first as Map<String, dynamic>;
 
-
         final properties = firstFeature['properties'] as Map<String, dynamic>;
         final summary = properties['summary'] as Map<String, dynamic>;
         final meters = summary['distance'] as double;
         final kilometers = meters / 1000;
-
 
         final formattedString = kilometers.toStringAsFixed(2);
         final formattedDouble = double.parse(formattedString);
@@ -140,6 +151,76 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     } else {
       final error = jsonDecode(response.body);
       throw ServerException(error['message'] ?? 'Something went wrong');
+    }
+  }
+
+  @override
+  Future<UserModel> registerInBackend({
+    required String uid,
+    required String name,
+    required String email,
+    required String password,
+    required String phoneNumber,
+  }) async {
+    final response = await client.post(
+      Uri.parse('https://rentapp.cyou/user.php'),
+      body: {
+        'action': "register",
+        'firebaseuid': uid,
+        'full_name': name,
+        'email': email,
+        'password': password,
+        'phone_number': phoneNumber,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonBody = json.decode(response.body);
+      if (jsonBody['status'] == 'success') {
+        return UserModel.fromJson(jsonDecode(response.body));
+      } else {
+        throw ServerException("Failed to save user to backend");
+      }
+    } else {
+      final error = json.decode(response.body);
+      throw ServerException(error['message'] ?? 'Something went wrong');
+    }
+  }
+
+  @override
+  Future<UserCredential> registerInFirebase(
+    String email,
+    String password,
+  ) async {
+    final userCredential = await auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential;
+  }
+
+  @override
+  Future<void> logout() async {
+    await auth.signOut();
+  }
+
+  @override
+  Future<UserModel> getSqlUser({required String uid}) async {
+    final response = await client.get(
+      Uri.parse(
+        'https://rentapp.cyou/user.php',
+      ).replace(queryParameters: {'action': 'getUser', 'firebaseuid': uid}),
+    );
+    if (response.statusCode == 200) {
+      final jsonBody = json.decode(response.body);
+
+      if (jsonBody['status'] == 'success') {
+        return UserModel.fromJson(jsonBody['data']);
+      } else {
+        throw ServerException("Failed to load user from backend");
+      }
+    } else {
+      throw ServerException("Server error ${response.statusCode}");
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:rent_app/presentation/widgets/on_going_card.dart';
 import 'package:rent_app/presentation/widgets/subHeading.dart';
 
 import '../../common/state_enum.dart';
+import '../provider/auth_provider.dart';
 import '../provider/unit_notifier.dart';
 import '../widgets/rent_banner.dart';
 import '../widgets/rent_item_card.dart';
@@ -20,15 +21,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<UnitNotifier>(context, listen: false)
-        ..fetchRecommendations();
-          // ..fetchUnitTypes();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authProvider = context.read<AuthProvider>();
+      final unitNotifier = context.read<UnitNotifier>();
+        unitNotifier.fetchRecommendations(apiKey:authProvider.currentUserEntity!.apiKey);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final unitNotifier = context.watch<UnitNotifier>();
+
+    if (unitNotifier.recommendationUnitsState == RequestState.Loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (unitNotifier.recommendationUnitsState == RequestState.Error) {
+      return Center(child: Text(unitNotifier.message));
+    }
+
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
@@ -127,11 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else {
-                  return const Center(
+                  return  Center(
                     key: Key('error_message'),
                     child: SizedBox(
                       height: 100,
-                      child: Center(child: Text("Error loading data")),
+                      child: Center(child: Text(data.message)),
                     ),
                   );
                 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/presentation/screens/chat_list_screen.dart';
 
+import '../provider/auth_provider.dart';
 import '../provider/main_provider.dart';
 import 'activity_screen.dart';
 import 'home_screen.dart';
@@ -23,6 +24,12 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<String> _screensName = ["Home", "Chat", "Activity", "Profile"];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthProvider>().loadUser();
+  }
 
   @override
   Widget build(BuildContext context) {

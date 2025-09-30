@@ -31,8 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
       passwordController.text,
     );
 
-    final message = authProvider.message;
-    scaffoldMessengerState.showSnackBar(SnackBar(content: Text(message.toString())));
+    // final message = authProvider.message;
+    // scaffoldMessengerState.showSnackBar(SnackBar(content: Text(message.toString())));
   }
 
   @override

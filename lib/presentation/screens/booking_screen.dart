@@ -10,6 +10,7 @@ import 'package:rent_app/presentation/widgets/location_picker_card.dart';
 
 import '../../common/distance_type_enum.dart';
 import '../../common/state_enum.dart';
+import '../provider/auth_provider.dart';
 import '../provider/map_provider.dart';
 import '../provider/unit_notifier.dart';
 import '../widgets/subHeading.dart';
@@ -40,7 +41,11 @@ class _BookingScreenState extends State<BookingScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<UnitNotifier>(context, listen: false).fetchDetail(widget.id);
+      final authProvider = context.read<AuthProvider>();
+      Provider.of<UnitNotifier>(context, listen: false).fetchDetail(
+        unitId: widget.id,
+        apiKey: authProvider.currentUserEntity!.apiKey,
+      );
       _initData();
     });
   }
@@ -121,7 +126,6 @@ class _BookingScreenState extends State<BookingScreen> {
       "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjA1NjgyMjg3ZGY3MDQyNjRhMzQzOTY2N2M1NjU2YThlIiwiaCI6Im11cm11cjY0In0=",
       DistanceType.current,
     );
-
   }
 
   @override
@@ -216,8 +220,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           SubHeading(
                             title: 'Payment Method:',
                             icon: Icons.expand_more,
-                            onTap: () {
-                            },
+                            onTap: () {},
                           ),
                           ListTile(
                             leading: Icon(Icons.money_outlined),

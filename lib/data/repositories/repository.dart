@@ -8,9 +8,9 @@ import '../entities/unit_detail_entity.dart';
 abstract class Repository {
   Future<Either<Failure, List<UnitTypeEntity>>> getUnitTypes();
 
-  Future<Either<Failure, List<Unit>>> getUnit();
+  Future<Either<Failure, List<Unit>>> getUnit({required String apiKey});
 
-  Future<Either<Failure, UnitDetailEntity>> getUnitDetail(int unitId);
+  Future<Either<Failure, UnitDetailEntity>> getUnitDetail({ required int unitId, required String apiKey});
 
   Future<Either<Failure, double>> getRoadDistanceInKm(
       double startLat, double startLng,

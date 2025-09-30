@@ -6,6 +6,7 @@ import '../../common/state_enum.dart';
 import '../../data/entities/specific_detail_entity.dart';
 import '../../data/entities/unit_detail_entity.dart';
 import '../../data/entities/unit_image_entity.dart';
+import '../provider/auth_provider.dart';
 import '../provider/unit_notifier.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -22,8 +23,12 @@ class _DetailScreenState extends State<DetailScreen> {
   void initState() {
     super.initState();
     final unitId = widget.unitId;
+    final authProvider = context.read<AuthProvider>();
     Future.microtask(() {
-      Provider.of<UnitNotifier>(context, listen: false).fetchDetail(unitId);
+      Provider.of<UnitNotifier>(
+        context,
+        listen: false,
+      ).fetchDetail(unitId: unitId, apiKey: authProvider.currentUserEntity!.apiKey);
     });
   }
 
