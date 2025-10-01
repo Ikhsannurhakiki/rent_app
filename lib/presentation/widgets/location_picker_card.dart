@@ -18,8 +18,6 @@ class LocationPicker extends StatefulWidget {
 class _LocationPickerState extends State<LocationPicker> {
   String _selected = 'office';
   bool isExpandedPickUp = false;
-  bool _showCollapsedPickUp = true;
-  bool _showExpandedPickUp = false;
   bool isExpandedReturn = false;
   bool _showCollapsedReturn = true;
   bool _showExpandedReturn = false;
@@ -32,9 +30,6 @@ class _LocationPickerState extends State<LocationPicker> {
         isExpandedReturn = !isExpandedReturn;
       }
 
-      _showExpandedPickUp = isExpandedPickUp;
-      _showCollapsedPickUp = !isExpandedPickUp;
-
       _showExpandedReturn = isExpandedReturn;
       _showCollapsedReturn = !isExpandedReturn;
     });
@@ -44,7 +39,6 @@ class _LocationPickerState extends State<LocationPicker> {
   Widget build(BuildContext context) {
     return Consumer<UnitNotifier>(
       builder: (context, provider, child) {
-        child:
         return Card(
           elevation: 1,
           child: Padding(
@@ -87,40 +81,31 @@ class _LocationPickerState extends State<LocationPicker> {
                           opacity: isExpandedReturn ? 0.0 : 1.0,
                           duration: const Duration(milliseconds: 500),
                           child: ListTile(
-                            title: Text(
-                              _selected == 'office'
-                                  ? provider
-                                        .detailUnit
-                                        .ownerDetails!
-                                        .businessName
-                                  : _selected == 'current'
-                                  ? 'Current Location'
-                                  : _selected == 'pick'
-                                  ? 'Pick Location'
-                                  : 'Unknown',
-                            ),
-                            leading: Radio<String>(
-                              value: _selected,
-                              groupValue: _selected,
-                              onChanged: null,
-                            ),
-                            subtitle: Consumer<MapProvider>(
+                            title: Consumer<MapProvider>(
                               builder: (context, provider, _) {
                                 final info = _selected == 'office'
                                     ? provider.placemarkOffice
                                     : _selected == "pick"
-                                    ? provider.placemarkReturn
+                                    ? widget.isPickup
+                                    ? provider.placemarkPickUp
+                                    : provider.placemarkReturn
                                     : _selected == "current"
                                     ? provider.placemarkCurrent
                                     : null;
                                 return info != null
                                     ? Text(
-                                        maxLines: 5,
-                                        overflow: TextOverflow.ellipsis,
-                                        "${info.street!}, ${info.subLocality!}, ${info.locality!}, ${info.postalCode!}, ${info.subAdministrativeArea!}, ${info.administrativeArea!}, ${info.country}",
-                                      )
+                                  style: TextStyle(fontSize: 14),
+                                  maxLines: 5,
+                                  overflow: TextOverflow.ellipsis,
+                                  "${info.street!}, ${info.subLocality!}, ${info.locality!}, ${info.postalCode!}, ${info.subAdministrativeArea!}, ${info.administrativeArea!}, ${info.country}",
+                                )
                                     : Container();
                               },
+                            ),
+                            leading: Radio<String>(
+                              value: _selected,
+                              groupValue: _selected,
+                              onChanged: null,
                             ),
                             onTap: () {
                               setState(() {
@@ -226,7 +211,9 @@ class _LocationPickerState extends State<LocationPicker> {
                               Consumer<MapProvider>(
                                 builder: (context, provider, _) {
                                   bool isPickUp = widget.isPickup;
-                                  final info = widget.isPickup?provider.placemarkPickUp: provider.placemarkReturn;
+                                  final info = isPickUp
+                                      ? provider.placemarkPickUp
+                                      : provider.placemarkReturn;
                                   return Row(
                                     children: [
                                       Expanded(
@@ -234,18 +221,24 @@ class _LocationPickerState extends State<LocationPicker> {
                                           title: const Text('Pick Location'),
                                           subtitle: info != null
                                               ? Consumer<MapProvider>(
-                                            builder: (context, provider, _) {
-                                              final distance = widget.isPickup
-                                                  ? provider.distanceCurrent
-                                                  : provider.distanceReturn;
-                                              return Text(
-                                                "${info.street!}, ${info.locality!} (${(distance/1000).toStringAsFixed(2)} km)",
-                                                maxLines: 5,
-                                                overflow: TextOverflow.ellipsis,
-                                              );
-                                            },
-                                          )
-                                              : const Text("No location selected."),
+                                                  builder: (context, provider, _) {
+                                                    final distance =
+                                                        widget.isPickup
+                                                        ? provider
+                                                              .distanceCurrent
+                                                        : provider
+                                                              .distanceReturn;
+                                                    return Text(
+                                                      "${info.street!}, ${info.locality!} (${(distance / 1000).toStringAsFixed(2)} km)",
+                                                      maxLines: 5,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    );
+                                                  },
+                                                )
+                                              : const Text(
+                                                  "No location selected.",
+                                                ),
                                           leading: Radio<String>(
                                             value: 'pick',
                                             groupValue: _selected,
@@ -294,9 +287,7 @@ class _LocationPickerState extends State<LocationPicker> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  MapScreen(
-                                                    isPick: isPickUp,
-                                                  ),
+                                                  MapScreen(isPick: isPickUp),
                                             ),
                                           );
                                         },

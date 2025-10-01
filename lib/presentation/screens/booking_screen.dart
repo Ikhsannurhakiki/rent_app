@@ -26,13 +26,7 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  DateTime? _startDateTime;
-  DateTime? _endDateTime;
-
-  LatLng? _currentLatLng;
   final Location _locationService = Location();
-  Placemark? _placemark;
-  Placemark? _placemarkOffice;
 
   double pickupCost = 0;
   double returnCost = 0;
@@ -75,9 +69,6 @@ class _BookingScreenState extends State<BookingScreen> {
       debugPrint("Placemark error: $e");
       print(e.toString());
     }
-    setState(() {
-      _placemarkOffice = placemark;
-    });
   }
 
   Future<void> _initLocation() async {
@@ -113,11 +104,6 @@ class _BookingScreenState extends State<BookingScreen> {
       debugPrint("Placemark error: $e");
       print(e.toString());
     }
-
-    setState(() {
-      _currentLatLng = latLng!;
-      _placemark = placemark;
-    });
     await dataProvider.getDistance(
       -6.200000,
       106.816666,
