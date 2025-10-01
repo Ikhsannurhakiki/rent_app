@@ -23,11 +23,9 @@ class UnitNotifier extends ChangeNotifier {
 
   List<Unit> get recommendationsUnit => _recommendationsUnit;
   RequestState _recommendationUnitsState = RequestState.Empty;
-
   RequestState get recommendationUnitsState => _recommendationUnitsState;
 
   late UnitDetailEntity _detailUnit;
-
   UnitDetailEntity get detailUnit => _detailUnit;
   RequestState _detailState = RequestState.Empty;
 

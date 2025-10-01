@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' hide Unit;
+import 'package:rent_app/data/entities/owner_detail_entity.dart';
 import 'package:rent_app/data/entities/unit_type_entity.dart';
 
 import '../../common/failure.dart';
@@ -16,4 +17,6 @@ abstract class Repository {
       double startLat, double startLng,
       double endLat, double endLng,
       String apiKey);
+
+  Future<Either<Failure, OwnerDetailEntity>> getOwnerDetail({required int ownerId, required String apiKey});
 }

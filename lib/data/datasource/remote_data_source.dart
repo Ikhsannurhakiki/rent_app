@@ -6,6 +6,7 @@ import 'package:rent_app/data/models/unit_detail_model.dart';
 import 'package:rent_app/data/models/unit_model.dart';
 
 import '../../common/exception.dart';
+import '../models/owner_detail_model.dart';
 import '../models/unit_type_model.dart';
 import '../models/user_model.dart';
 import '../response/unit_detail_response.dart';
@@ -41,6 +42,11 @@ abstract class RemoteDataSource {
   Future<void> logout();
 
   Future<UserModel> getSqlUser({required String uid});
+
+  Future<OwnerDetailModel> getOwnerDetail({
+    required int ownerId,
+    required String apiKey,
+  });
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -221,6 +227,31 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       }
     } else {
       throw ServerException("Server error ${response.statusCode}");
+    }
+  }
+
+  Future<OwnerDetailModel> getOwnerDetail({
+    required int ownerId,
+    required String apiKey,
+  }) async {
+    final url = Uri.parse(
+      "https://rentapp.cyou/owner.php?action=get_owner_detail&owner_id=$ownerId",
+    );
+    final response = await http.get(
+      url,
+      headers: {"x-api-key": apiKey, "Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 200) {
+      final decoded = json.decode(response.body);
+
+      if (decoded["status"] == "success") {
+        return OwnerDetailModel.fromJson(decoded["data"]);
+      } else {
+        throw Exception(decoded["message"] ?? "Failed to fetch owner detail");
+      }
+    } else {
+      throw Exception("Failed to connect to server (${response.statusCode})");
     }
   }
 }

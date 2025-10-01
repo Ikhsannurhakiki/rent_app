@@ -6,6 +6,9 @@ import 'package:rent_app/presentation/screens/main_screen.dart';
 import 'package:rent_app/presentation/screens/splash_screen.dart';
 
 import '../presentation/provider/auth_provider.dart';
+import '../presentation/screens/booking_screen.dart';
+import '../presentation/screens/detail_screen.dart';
+import '../presentation/screens/owner_detail_screen.dart';
 
 
 class AppRouter {
@@ -46,6 +49,31 @@ class AppRouter {
         GoRoute(
           path: '/main',
           builder: (context, state) => const MainScreen(),
+          routes: [
+            GoRoute(
+              path: 'details/:id',
+              builder: (context, state) {
+                final id = state.pathParameters['id']!;
+                return DetailScreen(unitId: 1);
+              },
+              routes: [
+                GoRoute(
+                  path: 'book',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return BookingScreen(id: 1, typeId: 1);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/rental/:id',
+          builder: (context, state) {
+            final id = int.parse(state.pathParameters['id']!); // convert to int
+            return OwnerDetailScreen(ownerId: id);
+          },
         ),
       ],
     );

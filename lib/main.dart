@@ -5,6 +5,7 @@ import 'package:rent_app/presentation/provider/auth_provider.dart';
 import 'package:rent_app/presentation/provider/book_notifier.dart';
 import 'package:rent_app/presentation/provider/main_provider.dart';
 import 'package:rent_app/presentation/provider/map_provider.dart';
+import 'package:rent_app/presentation/provider/owner_notifier.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
 import 'package:rent_app/routes/go_router_service.dart';
 import 'firebase_options.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => di.locator<UnitNotifier>()),
         ChangeNotifierProvider(create: (_) => di.locator<MapProvider>()),
         ChangeNotifierProvider(create: (_) => di.locator<BookNotifier>()),
+        ChangeNotifierProvider(create: (_) => di.locator<OwnerNotifier>())
       ],
       child: const MyApp(),
     ),

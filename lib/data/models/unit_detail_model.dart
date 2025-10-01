@@ -62,12 +62,12 @@ class UnitDetailModel {
           ? json['unit_type_id'] as int
           : int.parse(json['unit_type_id'].toString())) {
         case 1:
-          parsedSpecificDetails = CarDetailModel.fromJson(
+          parsedSpecificDetails = MotorcycleDetailModel.fromJson(
             json['specific_details'],
           );
           break;
         case 2:
-          parsedSpecificDetails = MotorcycleDetailModel.fromJson(
+          parsedSpecificDetails = CarDetailModel.fromJson(
             json['specific_details'],
           );
           break;

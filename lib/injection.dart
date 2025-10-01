@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:rent_app/data/usecase/auth/get_sql_user.dart';
+import 'package:rent_app/data/usecase/get_owner_detail.dart';
+import 'package:rent_app/presentation/provider/owner_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasource/remote_data_source.dart';
@@ -98,6 +100,9 @@ Future<void> init() async {
   locator.registerLazySingleton<GetCurrentUser>(
     () => GetCurrentUser(locator<AuthRepository>()),
   );
+  locator.registerLazySingleton<GetOwnerDetail>(
+        () => GetOwnerDetail(locator<Repository>()),
+  );
 
   // --------------------------
   // Providers / Notifiers
@@ -130,4 +135,8 @@ Future<void> init() async {
       getSqlUser: locator<GetSqlUser>(),
     ),
   );
+
+  locator.registerLazySingleton<OwnerNotifier>(() => OwnerNotifier(
+    getOwnerDetail: locator<GetOwnerDetail>()
+  ));
 }
