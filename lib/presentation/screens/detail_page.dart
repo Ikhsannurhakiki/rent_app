@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_app/presentation/provider/unit_notifier.dart';
 import 'package:rent_app/presentation/screens/booking_screen.dart';
+import 'package:rent_app/presentation/screens/owner_detail_screen.dart';
 import 'package:rent_app/presentation/widgets/profile_card.dart';
 
 import '../../common/constants.dart';
@@ -41,7 +43,7 @@ class _UnitDetailPageState extends State<UnitDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Unit Details")),
+      // appBar: AppBar(title: Text("Unit Details")),
       body: Consumer<UnitNotifier>(
         builder: (context, provider, child) {
           if (provider.detailState == RequestState.Loading) {
@@ -373,60 +375,64 @@ class _DetailContentState extends State<DetailContent> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      color: Colors.grey[300],
+      color: Colors.black,
       child: Stack(
         children: [
           Stack(
             children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 350.0,
-                  autoPlay: true,
-                  enlargeCenterPage: false,
-                  viewportFraction: 1,
-                  autoPlayInterval: const Duration(seconds: 5),
-                  autoPlayAnimationDuration: const Duration(milliseconds: 600),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
-                items: widget.unit.images.map<Widget>((UnitImageEntity image) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return ClipRRect(
-                        child: Image.network(
-                          image.imageUrl,
-                          width: double.infinity,
-                          fit: BoxFit.fitHeight,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value:
-                                    loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(
-                              child: Icon(
-                                Icons.broken_image_rounded,
-                                color: Colors.grey,
-                                size: 40,
-                              ),
-                            );
-                          },
-                        ),
-                      );
+              Container(
+                color: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 40),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 350.0,
+                    autoPlay: true,
+                    enlargeCenterPage: false,
+                    viewportFraction: 1,
+                    autoPlayInterval: const Duration(seconds: 5),
+                    autoPlayAnimationDuration: const Duration(milliseconds: 600),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
                     },
-                  );
-                }).toList(),
+                  ),
+                  items: widget.unit.images.map<Widget>((UnitImageEntity image) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return ClipRRect(
+                          child: Image.network(
+                            image.imageUrl,
+                            width: double.infinity,
+                            fit: BoxFit.fitHeight,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                child: Icon(
+                                  Icons.broken_image_rounded,
+                                  color: Colors.grey,
+                                  size: 40,
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
               Positioned(
                 bottom: 10,
@@ -626,6 +632,16 @@ class _DetailContentState extends State<DetailContent> {
                                           .unit
                                           .ownerDetails!
                                           .businessProfilePictureUrl,
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => OwnerDetailScreen(
+                                              ownerId: 1,
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     ),
                                   ),
                                   SizedBox(height: 16),

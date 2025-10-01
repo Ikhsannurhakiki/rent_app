@@ -147,68 +147,72 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        height: 200.0,
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        viewportFraction: 1,
-                        aspectRatio: 16 / 9,
-                        autoPlayInterval: const Duration(seconds: 5),
-                        autoPlayAnimationDuration: const Duration(
-                          milliseconds: 800,
+                    Container(
+                      height: MediaQuery.sizeOf(context).height ,
+                      color: Colors.black,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 250.0,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          viewportFraction: 1,
+                          aspectRatio: 16 / 9,
+                          autoPlayInterval: const Duration(seconds: 5),
+                          autoPlayAnimationDuration: const Duration(
+                            milliseconds: 800,
+                          ),
+                          autoPlayCurve: Curves.fastOutSlowIn,
                         ),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                      ),
-                      items: unitDetail.images.map<Widget>((
-                        UnitImageEntity image,
-                      ) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.network(
-                                  image.imageUrl,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value:
-                                                loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        );
-                                      },
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Center(
-                                      child: Icon(
-                                        Icons.error,
-                                        color: Colors.red,
-                                        size: 40,
-                                      ),
-                                    );
-                                  },
+                        items: unitDetail.images.map<Widget>((
+                          UnitImageEntity image,
+                        ) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    image.imageUrl,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value:
+                                                  loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Center(
+                                        child: Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                          size: 40,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
                     ),
                     SizedBox(height: 16),
                     Text(
